@@ -90,9 +90,66 @@ VALUES
     ('Andria', 'Paul', '1975-12-30', NULL, 3);
 
 -- pas d'utilisateur, profil autre
-
 INSERT INTO
     Statut (nom)
 VALUES
     ('en attente'),
     ('valider');
+
+-- Insérer 2 jours fériés
+INSERT INTO
+    Jour_Ferie (description, date_jf)
+VALUES
+    ('Nouvel An', '2025-01-01'),
+    ('Fête du Travail', '2025-05-01');
+
+INSERT INTO
+    Regle_Jour_Ferie (comportement_, date_modif) -- comportement = 1 si apres date jour ferier quon doit rendre , = 0 si avant date
+VALUES
+    (1, NOW ());
+
+INSERT INTO
+    Penalite (nb_jour_de_penalite)
+VALUES
+    (3), -- 3 jours de pénalité
+    (7), -- 7 jours de pénalité
+    (14);
+
+-- Exemple avec date_modif = maintenant
+INSERT INTO
+    Penalite_Profil (date_modif, id_penalite, id_profil)
+VALUES
+    (NOW (), 3, 1),
+    (NOW (), 2, 2),
+    (NOW (), 1, 3);
+
+INSERT INTO
+    Abonnement (mois, annee, tarif)
+VALUES
+    (12, 2025, 10000),
+    (11, 2025, 10000),
+    (10, 2025, 10000),
+    (9, 2025, 10000),
+    (8, 2025, 10000),
+    (7, 2025, 10000),
+    (6, 2025, 10000),
+    (5, 2025, 10000),
+    (4, 2025, 10000),
+    (3, 2025, 10000),
+    (2, 2025, 10000),
+    (1, 2025, 10000);
+
+INSERT INTO
+    Etat_Exemplaire (date_modif, id_exemplaire, id_etat)
+VALUES
+    (NOW (), 1, 1), -- EX-0001 - disponible
+    (NOW (), 2, 1), -- EX-0002 - disponible
+    (NOW (), 3, 1), -- EX-0003 - disponible
+    (NOW (), 4, 1), -- EX-0004 - disponible
+    (NOW (), 5, 1), -- EX-0005 - disponible
+    (NOW (), 6, 1), -- EX-0006 - disponible
+    (NOW (), 7, 2), -- EX-0007 - en pret
+    (NOW (), 8, 2), -- EX-0008 - en pret
+    (NOW (), 9, 2);
+
+-- EX-0009 - en pret
