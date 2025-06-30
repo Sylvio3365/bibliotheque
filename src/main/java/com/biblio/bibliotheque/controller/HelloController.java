@@ -27,6 +27,6 @@ public class HelloController {
 
         model.addAttribute("username", utilisateur.getUsername());
         model.addAttribute("role", utilisateur.getRole().getNom());
-        return "/views/hello"; // templates/hello.html
+        return "/views/hello"; // templates/views/hello.html
     }
 }
