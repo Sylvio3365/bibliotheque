@@ -56,7 +56,7 @@ public class AdherentController {
 
     @PostMapping("/edit/{id}")
     public String updateAdherent(@PathVariable("id") Integer id, @ModelAttribute Adherent adherent) {
-        adherent.setId_adherent(id);
+        adherent.setIdAdherent(id);
         adherentRepository.save(adherent);
         return "redirect:/adherent";
     }

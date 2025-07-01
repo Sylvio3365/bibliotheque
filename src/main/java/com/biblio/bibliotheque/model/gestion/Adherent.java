@@ -27,16 +27,13 @@ public class Adherent {
     @JoinColumn(name = "id_profil", nullable = false)
     private Profil profil;
 
-    @ManyToOne
-    @JoinColumn(name = "id_statut_adherent", nullable = false)
-    private StatutAdherent statutAdherent;
-
     // Getters and Setters
+
     public Integer getIdAdherent() {
         return idAdherent;
     }
 
-    public void setId_adherent(Integer idAdherent) {
+    public void setIdAdherent(Integer idAdherent) {
         this.idAdherent = idAdherent;
     }
 
@@ -78,13 +75,5 @@ public class Adherent {
 
     public void setProfil(Profil profil) {
         this.profil = profil;
-    }
-
-    public StatutAdherent getStatutAdherent() {
-        return statutAdherent;
-    }
-
-    public void setStatutAdherent(StatutAdherent statutAdherent) {
-        this.statutAdherent = statutAdherent;
     }
 }
