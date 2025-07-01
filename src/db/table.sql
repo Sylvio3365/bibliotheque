@@ -232,3 +232,19 @@ CREATE TABLE
         FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent),
         FOREIGN KEY (id_abonnement) REFERENCES Abonnement (id_abonnement)
     );
+
+CREATE TABLE
+    Jour_Ferie (
+        id_jour_ferie INT SERIAL,
+        description VARCHAR(50),
+        date_jf DATE NOT NULL,
+        PRIMARY KEY (id_jour_ferie)
+    );
+
+CREATE TABLE
+    Regle_Jour_Ferie (
+        id_regle_jour_ferie INT SERIAL,
+        comportement_ INT NOT NULL,
+        date_modif DATETIME NOT NULL,
+        PRIMARY KEY (id_regle_jour_ferie)
+    );
