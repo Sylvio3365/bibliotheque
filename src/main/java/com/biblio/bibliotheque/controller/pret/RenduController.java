@@ -2,8 +2,8 @@ package com.biblio.bibliotheque.controller.pret;
 
 import com.biblio.bibliotheque.model.pret.Rendu;
 import com.biblio.bibliotheque.model.pret.Pret;
-import com.biblio.bibliotheque.repository.RenduRepository;
-import com.biblio.bibliotheque.repository.PretRepository;
+import com.biblio.bibliotheque.repository.pret.*;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -4,9 +4,8 @@ import com.biblio.bibliotheque.model.pret.TypeExemplairePret;
 import com.biblio.bibliotheque.model.pret.TypeExemplairePretId;
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.livre.Type;
-import com.biblio.bibliotheque.repository.TypeExemplairePretRepository;
-import com.biblio.bibliotheque.repository.ExemplaireRepository;
-import com.biblio.bibliotheque.repository.TypeRepository;
+import com.biblio.bibliotheque.repository.pret.*;
+import com.biblio.bibliotheque.repository.livre.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

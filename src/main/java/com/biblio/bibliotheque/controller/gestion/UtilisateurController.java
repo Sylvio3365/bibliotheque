@@ -2,8 +2,7 @@ package com.biblio.bibliotheque.controller.gestion;
 
 import com.biblio.bibliotheque.model.gestion.Utilisateur;
 import com.biblio.bibliotheque.model.gestion.Role;
-import com.biblio.bibliotheque.repository.UtilisateurRepository;
-import com.biblio.bibliotheque.repository.RoleRepository;
+import com.biblio.bibliotheque.repository.gestion.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.biblio.bibliotheque.model.livre.Livre;
-import com.biblio.bibliotheque.repository.LivreRepository;
+import com.biblio.bibliotheque.repository.livre.*;
 
 @Controller
 @RequestMapping("/livres")

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.biblio.bibliotheque.model.gestion.RegleJourFerie;
-import com.biblio.bibliotheque.repository.RegleJourFerieRepository;
+import com.biblio.bibliotheque.repository.gestion.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

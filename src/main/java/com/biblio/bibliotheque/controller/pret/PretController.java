@@ -4,7 +4,9 @@ import com.biblio.bibliotheque.model.pret.Pret;
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.gestion.Adherent;
 import com.biblio.bibliotheque.model.livre.Type;
-import com.biblio.bibliotheque.repository.*;
+import com.biblio.bibliotheque.repository.pret.*;
+import com.biblio.bibliotheque.repository.gestion.*;
+import com.biblio.bibliotheque.repository.livre.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

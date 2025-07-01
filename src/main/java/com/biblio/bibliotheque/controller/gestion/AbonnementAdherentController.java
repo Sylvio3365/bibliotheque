@@ -4,7 +4,7 @@ import com.biblio.bibliotheque.model.gestion.AbonnementAdherent;
 import com.biblio.bibliotheque.model.gestion.AbonnementAdherentId;
 import com.biblio.bibliotheque.model.gestion.Abonnement;
 import com.biblio.bibliotheque.model.gestion.Adherent;
-import com.biblio.bibliotheque.repository.*;
+import com.biblio.bibliotheque.repository.gestion.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

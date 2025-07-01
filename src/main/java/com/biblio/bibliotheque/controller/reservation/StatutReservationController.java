@@ -1,9 +1,11 @@
 package com.biblio.bibliotheque.controller.reservation;
 
 import com.biblio.bibliotheque.model.reservation.StatutReservation;
-import com.biblio.bibliotheque.repository.StatutReservationRepository;
-import com.biblio.bibliotheque.repository.ReservationRepository;
-import com.biblio.bibliotheque.repository.StatutRepository;
+
+import com.biblio.bibliotheque.repository.pret.*;
+import com.biblio.bibliotheque.repository.gestion.*;
+import com.biblio.bibliotheque.repository.livre.*;
+import com.biblio.bibliotheque.repository.reservation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
