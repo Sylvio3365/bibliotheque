@@ -93,16 +93,7 @@ VALUES
     ('Andria', 'Paul', '1975-12-30', NULL, 3);
 
 
-INSERT INTO Statut_Adherent (
-    id_adherent,
-    nom,
-    date_debut,
-    date_fin
-)
-VALUES
-    (1, 'Actif', '2024-01-01', '2025-01-01'),
-    (2, 'Actif', '2024-01-01', '2024-12-31'),
-    (3, 'Inactif', '2024-01-01', '2025-06-30');
+
 
 INSERT INTO Statut_Adherent (id_adherent, nom, date_debut, date_fin) VALUES
 (1, 'Actif', '2024-01-01', '2024-06-30'),

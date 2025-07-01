@@ -1,6 +1,6 @@
-DROP DATABASE if exists bibliotheque;
-CREATE DATABASE bibliotheque;
-\c bibliotheque;
+DROP DATABASE if exists pg2;
+CREATE DATABASE pg2;
+\c pg2;
 
 
 CREATE TABLE Restriction (
