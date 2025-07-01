@@ -16,11 +16,15 @@ public class Prolongement {
     @Column(name = "date_prolongement", nullable = false)
     private LocalDateTime dateProlongement;
 
+    @Column(name = "statut", nullable = false)
+    private Integer statut;
+
     @ManyToOne
     @JoinColumn(name = "id_pret", nullable = false)
     private Pret pret;
 
     // Getters and Setters
+
     public Integer getId_prolongement() {
         return id_prolongement;
     }
@@ -52,5 +56,12 @@ public class Prolongement {
     public void setPret(Pret pret) {
         this.pret = pret;
     }
-}
 
+    public Integer getStatut() {
+        return statut;
+    }
+
+    public void setStatut(Integer statut) {
+        this.statut = statut;
+    }
+}
