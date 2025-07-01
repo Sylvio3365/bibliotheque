@@ -143,24 +143,24 @@ CREATE TABLE
         FOREIGN KEY (id_profil) REFERENCES Profil (id_profil)
     );
 
-CREATE TABLE Statut_Adherent (
-    id_statut_adherent SERIAL PRIMARY KEY,
-    nom VARCHAR(20) NOT NULL UNIQUE 
-);
-
 CREATE TABLE Adherent (
-    id_adherent SERIAL,
+    id_adherent SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
     date_de_naissance DATE NOT NULL,
-    id_utilisateur INT,
+    id_utilisateur INT UNIQUE,
     id_profil INT NOT NULL,
-    id_statut_adherent INT NOT NULL,
-    PRIMARY KEY (id_adherent),
-    UNIQUE (id_utilisateur),
     FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur (id_utilisateur),
-    FOREIGN KEY (id_profil) REFERENCES Profil (id_profil),
-    FOREIGN KEY (id_statut_adherent) REFERENCES Statut_Adherent (id_statut_adherent)
+    FOREIGN KEY (id_profil) REFERENCES Profil (id_profil)
+);
+
+CREATE TABLE Statut_Adherent (
+    id_statut_adherent SERIAL PRIMARY KEY,
+    id_adherent INT NOT NULL,
+    nom VARCHAR(20) NOT NULL, 
+    date_debut DATE NOT NULL,
+    date_fin DATE, 
+    FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent)
 );
 
 CREATE TABLE

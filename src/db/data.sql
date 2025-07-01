@@ -1,10 +1,15 @@
 -- Insertion de 3 livres
-INSERT INTO
-    Livre (titre, auteur)
-VALUES
-    ('Le Petit Prince', 'Antoine de Saint-Exupéry'),
-    ('1984', 'George Orwell'),
-    ('Les Misérables', 'Victor Hugo');
+
+INSERT INTO Restriction (age_min) VALUES
+    (0),   
+    (16),
+    (12);
+
+INSERT INTO Livre (titre, auteur, id_restriction) VALUES
+    ('Le Petit Prince', 'Antoine de Saint-Exupéry', 1), 
+    ('1984', 'George Orwell', 2),                      
+    ('Les Misérables', 'Victor Hugo', 3);              
+
 
 -- Insertion de 3 exemplaires par livre
 INSERT INTO
@@ -75,19 +80,29 @@ VALUES
     ('professeur', 1),
     ('autre', 1);
 
--- Insertion de 3 adhérents, liés ou non à un utilisateur et à un profil
-INSERT INTO
-    Adherent (
-        nom,
-        prenom,
-        date_de_naissance,
-        id_utilisateur,
-        id_profil
-    )
+INSERT INTO Adherent (
+    nom,
+    prenom,
+    date_de_naissance,
+    id_utilisateur,
+    id_profil
+)
 VALUES
-    ('Rakoto', 'Jean', '1990-05-15', 2, 1), -- user_adherent, profil etudiant
-    ('Rabe', 'Marie', '1985-09-20', NULL, 2), -- pas d'utilisateur, profil professeur
+    ('Rakoto', 'Jean', '1990-05-15', 2, 1),
+    ('Rabe', 'Marie', '1985-09-20', NULL, 2),
     ('Andria', 'Paul', '1975-12-30', NULL, 3);
+
+
+INSERT INTO Statut_Adherent (
+    id_adherent,
+    nom,
+    date_debut,
+    date_fin
+)
+VALUES
+    (1, 'Actif', '2024-01-01', '2025-01-01'),
+    (2, 'Actif', '2024-01-01', '2024-12-31'),
+    (3, 'Inactif', '2024-01-01', '2025-06-30');
 
 -- pas d'utilisateur, profil autre
 INSERT INTO
@@ -153,5 +168,3 @@ VALUES
     (NOW (), 9, 2);
 
 -- EX-0009 - en pret
-
-INSERT INTO Statut_Adherent (nom) VALUES ('Actif'), ('Inactif');
