@@ -1,22 +1,20 @@
 package com.biblio.bibliotheque.controller.pret;
 
 import com.biblio.bibliotheque.model.pret.Pret;
-import com.biblio.bibliotheque.model.livre.Exemplaire;
-import com.biblio.bibliotheque.model.gestion.Adherent;
-import com.biblio.bibliotheque.model.livre.Type;
-import com.biblio.bibliotheque.repository.pret.*;
-import com.biblio.bibliotheque.repository.gestion.*;
-import com.biblio.bibliotheque.repository.livre.*;
+import com.biblio.bibliotheque.service.gestion.AdherentService;
+import com.biblio.bibliotheque.repository.pret.PretRepository;
+import com.biblio.bibliotheque.repository.livre.ExemplaireRepository;
+import com.biblio.bibliotheque.repository.livre.TypeRepository;
+
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
-@RequestMapping("/pret")
+@RequestMapping("/preter")
 public class PretController {
 
     @Autowired
@@ -26,59 +24,38 @@ public class PretController {
     private ExemplaireRepository exemplaireRepository;
 
     @Autowired
-    private AdherentRepository adherentRepository;
-
-    @Autowired
     private TypeRepository typeRepository;
 
-    // LIST
-    @GetMapping
-    public String listPrets(Model model) {
-        List<Pret> prets = pretRepository.findAll();
-        model.addAttribute("prets", prets);
-        return "views/pret/list";
-    }
+    @Autowired
+    private AdherentService adherentService;
 
-    // ADD FORM
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
+    @GetMapping("/formpreter/livre")
+    public String showFormPreterLivre(Model model) {
         model.addAttribute("pret", new Pret());
         model.addAttribute("exemplaires", exemplaireRepository.findAll());
-        model.addAttribute("adherents", adherentRepository.findAll());
+        model.addAttribute("adherents", adherentService.getAll()); // Utiliser service
         model.addAttribute("types", typeRepository.findAll());
-        return "views/pret/add";
+        return "views/preter/form_preter";
+    }
+@PostMapping("/add")
+public String savePret(@ModelAttribute Pret pret, Model model) {
+    Integer idAdherent = pret.getAdherent().getIdAdherent();
+    LocalDate dateDebut = pret.getDate_debut();
+
+    String statut = adherentService.getStatutAdherentOnDate(idAdherent, dateDebut);
+
+    model.addAttribute("dateDebut", dateDebut);
+    model.addAttribute("idAdherent", idAdherent);
+    model.addAttribute("statut", statut);
+
+    if ("actif".equals(statut)) {
+        model.addAttribute("message", "Prêt reçu : adhérent actif.");
+    } else {
+        model.addAttribute("message", "Prêt reçu : adhérent inactif.");
     }
 
-    // ADD ACTION
-    @PostMapping("/add")
-    public String addPret(@ModelAttribute Pret pret) {
-        pretRepository.save(pret);
-        return "redirect:/pret";
-    }
+    return "views/preter/verification_pret";
+}
 
-    // EDIT FORM
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Integer id, Model model) {
-        Pret pret = pretRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid ID: " + id));
-        model.addAttribute("pret", pret);
-        model.addAttribute("exemplaires", exemplaireRepository.findAll());
-        model.addAttribute("adherents", adherentRepository.findAll());
-        model.addAttribute("types", typeRepository.findAll());
-        return "views/pret/edit";
-    }
 
-    // UPDATE ACTION
-    @PostMapping("/edit/{id}")
-    public String updatePret(@PathVariable("id") Integer id, @ModelAttribute Pret pret) {
-        pret.setId_pret(id);
-        pretRepository.save(pret);
-        return "redirect:/pret";
-    }
-
-    // DELETE ACTION
-    @GetMapping("/delete/{id}")
-    public String deletePret(@PathVariable("id") Integer id) {
-        pretRepository.deleteById(id);
-        return "redirect:/pret";
-    }
 }
