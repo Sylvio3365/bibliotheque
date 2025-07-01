@@ -235,7 +235,7 @@ CREATE TABLE
 
 CREATE TABLE
     Jour_Ferie (
-        id_jour_ferie INT SERIAL,
+        id_jour_ferie SERIAL,
         description VARCHAR(50),
         date_jf DATE NOT NULL,
         PRIMARY KEY (id_jour_ferie)
@@ -243,7 +243,7 @@ CREATE TABLE
 
 CREATE TABLE
     Regle_Jour_Ferie (
-        id_regle_jour_ferie INT SERIAL,
+        id_regle_jour_ferie SERIAL,
         comportement_ INT NOT NULL,
         date_modif DATETIME NOT NULL,
         PRIMARY KEY (id_regle_jour_ferie)
