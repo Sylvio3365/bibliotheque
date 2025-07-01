@@ -1,8 +1,6 @@
 package com.biblio.bibliotheque.model.pret;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
 
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.livre.Type;

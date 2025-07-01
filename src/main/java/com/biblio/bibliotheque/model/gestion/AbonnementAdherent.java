@@ -2,9 +2,6 @@ package com.biblio.bibliotheque.model.gestion;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.io.Serializable;
-import java.util.Objects;
-
 @Entity
 @IdClass(AbonnementAdherentId.class)
 public class AbonnementAdherent {
