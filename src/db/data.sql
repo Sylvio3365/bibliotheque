@@ -104,6 +104,20 @@ VALUES
     (2, 'Actif', '2024-01-01', '2024-12-31'),
     (3, 'Inactif', '2024-01-01', '2025-06-30');
 
+INSERT INTO Statut_Adherent (id_adherent, nom, date_debut, date_fin) VALUES
+(1, 'Actif', '2024-01-01', '2024-06-30'),
+(1, 'Inactif', '2024-07-01', '2024-12-31'),
+(1, 'Actif', '2025-01-01', NULL),
+
+(2, 'Inactif', '2023-01-01', '2023-12-31'),
+(2, 'Actif', '2024-01-01', '2024-03-31'),
+(2, 'Inactif', '2024-04-01', '2024-12-31'),
+(2, 'Actif', '2025-01-01', NULL),
+
+(3, 'Actif', '2024-02-15', '2024-05-15'),
+(3, 'Inactif', '2024-05-16', '2024-08-15'),
+(3, 'Actif', '2024-08-16', NULL);
+
 -- pas d'utilisateur, profil autre
 INSERT INTO
     Statut (nom)
