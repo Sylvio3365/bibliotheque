@@ -3,16 +3,26 @@ package com.biblio.bibliotheque.controller.pret;
 import com.biblio.bibliotheque.model.pret.Pret;
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.gestion.Adherent;
+import com.biblio.bibliotheque.model.gestion.Regle;
+import com.biblio.bibliotheque.model.gestion.Utilisateur;
 import com.biblio.bibliotheque.model.livre.Type;
 import com.biblio.bibliotheque.repository.pret.*;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.biblio.bibliotheque.repository.gestion.*;
 import com.biblio.bibliotheque.repository.livre.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -81,4 +91,38 @@ public class PretController {
         pretRepository.deleteById(id);
         return "redirect:/pret";
     }
+
+    @GetMapping("/liste")
+    public String listPretsByAdherent(Model model, HttpSession session) {
+        // Récupérer l'utilisateur depuis la session
+        Utilisateur utilisateur = (Utilisateur) session.getAttribute("user");
+
+        // Si pas d'utilisateur en session, rediriger vers login (optionnel)
+        if (utilisateur == null) {
+            return "redirect:/login"; // À supprimer si vous ne voulez aucune redirection
+        }
+
+        // Trouver l'adhérent lié à cet utilisateur
+        Adherent adherent = adherentRepository.findByUtilisateur(utilisateur)
+                .orElse(null); // Retourne null si pas trouvé au lieu de throw exception
+
+        if (adherent == null) {
+            model.addAttribute("error", "Aucun adhérent trouvé");
+            return "pret/list"; // Affiche la page vide avec message d'erreur
+        }
+
+        // Récupérer les prêts de cet adhérent
+        List<Pret> prets = pretRepository.findByAdherent(adherent);
+
+        model.addAttribute("prets", prets);
+        return "pret/list";
+    }
+
+    // Dans PretController.java
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleNotFound(IllegalArgumentException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "error"; // Créez une page error.html pour afficher les messages d'erreur
+    }
+
 }

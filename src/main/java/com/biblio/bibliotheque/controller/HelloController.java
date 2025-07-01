@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.biblio.bibliotheque.model.gestion.Utilisateur;
+import com.biblio.bibliotheque.model.pret.Pret;
+import com.biblio.bibliotheque.service.pret.PretService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -25,8 +27,17 @@ public class HelloController {
             return "redirect:/login";
         }
 
-        model.addAttribute("username", utilisateur.getUsername());
-        model.addAttribute("role", utilisateur.getRole().getNom());
-        return "/views/hello"; // templates/views/hello.html
+        String username = utilisateur.getUsername();
+        String role = utilisateur.getRole().getNom();
+
+        model.addAttribute("username", username);
+        model.addAttribute("role", role);
+
+        // Détermine si l'utilisateur est un adhérent
+        boolean isAdherent = "adherent".equalsIgnoreCase(role);
+        model.addAttribute("isAdherent", isAdherent);
+
+        return "/views/hello";
     }
+
 }

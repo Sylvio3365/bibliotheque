@@ -1,10 +1,8 @@
 package com.biblio.bibliotheque.model.pret;
 
 import com.biblio.bibliotheque.model.livre.*;
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
 import com.biblio.bibliotheque.model.gestion.Adherent;
 
 @Entity
@@ -31,7 +29,6 @@ public class Pret {
     @ManyToOne
     @JoinColumn(name = "id_type", nullable = false)
     private Type type;
-
     // Getters and Setters
     public Integer getId_pret() {
         return id_pret;
@@ -80,5 +77,21 @@ public class Pret {
     public void setType(Type type) {
         this.type = type;
     }
-}
 
+    public Integer getNb_prolongements() {
+        return nb_prolongements;
+    }
+
+    public void setNb_prolongements(Integer nb_prolongements) {
+        this.nb_prolongements = nb_prolongements;
+    }
+
+    public LocalDateTime getDate_prolongement() {
+        return date_prolongement;
+    }
+
+    public void setDate_prolongement(LocalDateTime date_prolongement) {
+        this.date_prolongement = date_prolongement;
+    }
+
+}

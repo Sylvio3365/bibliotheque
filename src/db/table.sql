@@ -214,10 +214,23 @@ CREATE TABLE
         nouveau_date_fin_pret TIMESTAMP NOT NULL,
         date_prolongement TIMESTAMP NOT NULL,
         id_pret INT NOT NULL,
-        statut INT NOT NULL,
         PRIMARY KEY (id_prolongement),
         FOREIGN KEY (id_pret) REFERENCES Pret (id_pret)
     );
+
+CREATE TABLE
+    StatusProlongement (
+        id_status SERIAL
+        id_prolongement SERIAL,
+        date_prolongement TIMESTAMP NOT NULL,
+        id_pret INT NOT NULL,
+        status INT NOT NULL,
+        status_traintement INT NOT NULL,
+        PRIMARY KEY (id_status),
+        FOREIGN KEY (id_pret) REFERENCES Pret (id_pret),
+        FOREIGN KEY (id_prolongement) REFERENCES Pret (id_prolongement)
+    );
+
 
 CREATE TABLE
     Type_Exemplaire_Pret (
