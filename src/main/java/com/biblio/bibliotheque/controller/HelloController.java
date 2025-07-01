@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 @Controller
 public class HelloController {
 
-    @GetMapping("/")
+    @GetMapping("/bienvenue")
     public String afficherHello(Model model) {
         model.addAttribute("message", "Bienvenue à la bibliothèque !");
         return "/views/hello";
