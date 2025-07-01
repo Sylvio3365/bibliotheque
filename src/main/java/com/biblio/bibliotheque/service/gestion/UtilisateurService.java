@@ -33,4 +33,7 @@ public class UtilisateurService {
     public Optional<Utilisateur> findByUsernameAndMdp(String username, String mdp) {
         return utilisateurRepository.findByUsernameAndMdp(username, mdp);
     }
+    public Optional<Utilisateur> login(String username, String mdp) {
+        return utilisateurRepository.findByUsernameAndMdp(username, mdp);
+    }
 }

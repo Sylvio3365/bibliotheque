@@ -1,6 +1,6 @@
 package com.biblio.bibliotheque.controller;
 
-import com.biblio.bibliotheque.service.UtilisateurService;
+import com.biblio.bibliotheque.service.gestion.UtilisateurService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
