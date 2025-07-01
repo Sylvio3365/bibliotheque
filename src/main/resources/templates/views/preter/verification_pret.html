@@ -2,11 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Hello World</title>
+    <title>Affichage Prêt</title>
+    <meta charset="UTF-8" />
 </head>
 
 <body>
-    <h1>Hello World</h1>
+    <h1>Informations du prêt reçu</h1>
+
+    <p th:text="'Date de début : ' + ${dateDebut}"></p>
+    <p th:text="'ID de l’adhérent : ' + ${idAdherent}"></p>
+
+    <p th:text="${message}"></p>
+
+    <p>
+        Statut adhérent : 
+        <span th:text="${statut == 'actif' ? 'Actif ✅' : 'Inactif ❌'}"></span>
+    </p>
+
+    <a th:href="@{/preter/formpreter/livre}">Retour au formulaire</a>
 </body>
 
 </html>

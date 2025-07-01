@@ -10,17 +10,20 @@ public class StatutAdherent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idStatutAdherent;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_adherent", nullable = false)
     private Adherent adherent;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "nom", nullable = false, length = 20)
     private String nom;
 
-    @Column(nullable = false)
+    @Column(name = "date_debut", nullable = false)
     private LocalDate dateDebut;
 
+    @Column(name = "date_fin")
     private LocalDate dateFin;
+
+    // --- Getters & Setters ---
 
     public Integer getIdStatutAdherent() {
         return idStatutAdherent;
