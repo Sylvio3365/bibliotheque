@@ -2,13 +2,22 @@ DROP DATABASE if exists pg2;
 CREATE DATABASE pg2;
 \c pg2;
 
-CREATE TABLE
-    Livre (
-        id_livre SERIAL,
-        titre VARCHAR(50) NOT NULL,
-        auteur VARCHAR(50),
-        PRIMARY KEY (id_livre)
-    );
+
+CREATE TABLE Restriction (
+    id_restriction SERIAL PRIMARY KEY,
+    age_min INT NOT NULL
+);
+
+
+CREATE TABLE Livre (
+    id_livre SERIAL PRIMARY KEY,
+    titre VARCHAR(50) NOT NULL,
+    auteur VARCHAR(50),
+    id_restriction INT UNIQUE,
+    FOREIGN KEY (id_restriction) REFERENCES Restriction(id_restriction)
+);
+
+
 
 CREATE TABLE
     Exemplaire (
@@ -134,19 +143,25 @@ CREATE TABLE
         FOREIGN KEY (id_profil) REFERENCES Profil (id_profil)
     );
 
-CREATE TABLE
-    Adherent (
-        id_adherent SERIAL,
-        nom VARCHAR(50) NOT NULL,
-        prenom VARCHAR(50) NOT NULL,
-        date_de_naissance DATE NOT NULL,
-        id_utilisateur INT,
-        id_profil INT NOT NULL,
-        PRIMARY KEY (id_adherent),
-        UNIQUE (id_utilisateur),
-        FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur (id_utilisateur),
-        FOREIGN KEY (id_profil) REFERENCES Profil (id_profil)
-    );
+CREATE TABLE Statut_Adherent (
+    id_statut_adherent SERIAL PRIMARY KEY,
+    nom VARCHAR(20) NOT NULL UNIQUE 
+);
+
+CREATE TABLE Adherent (
+    id_adherent SERIAL,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    date_de_naissance DATE NOT NULL,
+    id_utilisateur INT,
+    id_profil INT NOT NULL,
+    id_statut_adherent INT NOT NULL,
+    PRIMARY KEY (id_adherent),
+    UNIQUE (id_utilisateur),
+    FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur (id_utilisateur),
+    FOREIGN KEY (id_profil) REFERENCES Profil (id_profil),
+    FOREIGN KEY (id_statut_adherent) REFERENCES Statut_Adherent (id_statut_adherent)
+);
 
 CREATE TABLE
     Reservation (
@@ -237,16 +252,3 @@ CREATE TABLE
         FOREIGN KEY (id_abonnement) REFERENCES Abonnement (id_abonnement)
     );
 
-CREATE TABLE
-    Jour_Ferie (
-        id_jour_ferie SERIAL PRIMARY KEY,
-        description VARCHAR(50),
-        date_jf DATE NOT NULL
-    );
-
-CREATE TABLE
-    Regle_Jour_Ferie (
-        id_regle_jour_ferie SERIAL PRIMARY KEY,
-        comportement INT NOT NULL,
-        date_modif TIMESTAMP NOT NULL
-    );

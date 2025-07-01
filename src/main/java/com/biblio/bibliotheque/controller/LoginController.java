@@ -16,8 +16,15 @@ public class LoginController {
 
     @GetMapping("/")
     public String loginForm() {
-        return "login/login"; // templates/login/login.html
+        return "login/login"; 
     }
+
+    @GetMapping("/login")
+    public String logout() {
+        return "login/login"; 
+    }
+
+
 
     @PostMapping("/login")
     public String login(@RequestParam String username,
