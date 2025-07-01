@@ -13,9 +13,11 @@ import java.util.Optional;
 public interface StatutAdherentRepository extends JpaRepository<StatutAdherent, Integer> {
 
     @Query("SELECT s FROM StatutAdherent s WHERE s.adherent.idAdherent = :idAdherent " +
-           "AND (s.dateFin IS NULL OR s.dateFin >= :date) " +
-           "AND s.dateDebut <= :date")
+       "AND (s.dateFin IS NULL OR s.dateFin >= :date) " +
+       "AND s.dateDebut <= :date " +
+       "AND LOWER(s.nom) = 'actif'")
     Optional<StatutAdherent> findStatutActifByAdherentIdAndDate(
             @Param("idAdherent") Integer idAdherent,
             @Param("date") LocalDate date);
+
 }
