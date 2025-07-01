@@ -35,6 +35,32 @@
         <br>
 
         <div>
+            <label for="type">Type :</label><br>
+            <select id="type" th:field="*{type}" required>
+                <option value="" disabled selected>-- Sélectionnez un type --</option>
+                <option th:each="type : ${types}" 
+                        th:value="${type.id_type}" 
+                        th:text="${type.nom}"></option>
+            </select>
+        </div>
+
+        <br>
+
+        <div>
+            <label for="dateDebut">Date de début :</label><br>
+            <input type="date" id="dateDebut" th:field="*{date_debut}" required>
+        </div>
+
+        <br>
+
+        <div>
+            <label for="dateFin">Date de fin :</label><br>
+            <input type="date" id="dateFin" th:field="*{date_fin}" required>
+        </div>
+
+        <br>
+
+        <div>
             <button type="submit">Enregistrer le prêt</button>
         </div>
 

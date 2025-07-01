@@ -39,4 +39,11 @@ public class PretController {
         model.addAttribute("types", typeRepository.findAll());
         return "views/preter/form_preter";
     }
+
+    @PostMapping("/add")
+    public String savePret(@ModelAttribute Pret pret) {
+        pretRepository.save(pret);
+        return "views/preter/verification_pret";
+    }
+
 }

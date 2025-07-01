@@ -1,11 +1,10 @@
 package com.biblio.bibliotheque.model.pret;
 
-import com.biblio.bibliotheque.model.livre.*;
-
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-
+import com.biblio.bibliotheque.model.livre.Exemplaire;
+import com.biblio.bibliotheque.model.livre.Type;
 import com.biblio.bibliotheque.model.gestion.Adherent;
+import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class Pret {
@@ -14,11 +13,11 @@ public class Pret {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_pret;
 
-    @Column(nullable = false)
-    private LocalDateTime date_debut;
+    @Column
+    private LocalDate date_debut;
 
-    @Column(nullable = false)
-    private LocalDateTime date_fin;
+    @Column
+    private LocalDate date_fin;
 
     @ManyToOne
     @JoinColumn(name = "id_exemplaire", nullable = false)
@@ -32,7 +31,6 @@ public class Pret {
     @JoinColumn(name = "id_type", nullable = false)
     private Type type;
 
-    // Getters and Setters
     public Integer getId_pret() {
         return id_pret;
     }
@@ -41,19 +39,19 @@ public class Pret {
         this.id_pret = id_pret;
     }
 
-    public LocalDateTime getDate_debut() {
+    public LocalDate getDate_debut() {
         return date_debut;
     }
 
-    public void setDate_debut(LocalDateTime date_debut) {
+    public void setDate_debut(LocalDate date_debut) {
         this.date_debut = date_debut;
     }
 
-    public LocalDateTime getDate_fin() {
+    public LocalDate getDate_fin() {
         return date_fin;
     }
 
-    public void setDate_fin(LocalDateTime date_fin) {
+    public void setDate_fin(LocalDate date_fin) {
         this.date_fin = date_fin;
     }
 
@@ -81,4 +79,3 @@ public class Pret {
         this.type = type;
     }
 }
-
