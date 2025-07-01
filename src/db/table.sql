@@ -219,6 +219,17 @@ CREATE TABLE Abonnement_Adherent (
   PRIMARY KEY (id_adherent, id_abonnement)
 );
 
+CREATE TABLE StatusProlongement (
+    id_status SERIAL,
+    id_prolongement INT NOT NULL,
+    id_pret INT NOT NULL,
+    status INT NOT NULL,
+    status_traitement INT NOT NULL,
+    PRIMARY KEY (id_status),
+    FOREIGN KEY (id_pret) REFERENCES Pret (id_pret),
+    FOREIGN KEY (id_prolongement) REFERENCES Prolongement (id_prolongement)
+)
+
 CREATE UNIQUE INDEX ON Exemplaire (code);
 
 CREATE UNIQUE INDEX ON Statut (nom);
