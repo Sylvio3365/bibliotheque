@@ -1,4 +1,4 @@
-package com.biblio.bibliotheque.controller;
+package com.biblio.bibliotheque.controller.livre;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.biblio.bibliotheque.model.Livre;
+import com.biblio.bibliotheque.model.livre.Livre;
 import com.biblio.bibliotheque.repository.LivreRepository;
 
 @Controller

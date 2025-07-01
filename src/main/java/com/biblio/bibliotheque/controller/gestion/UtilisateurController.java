@@ -1,4 +1,4 @@
-package com.biblio.bibliotheque.controller;
+package com.biblio.bibliotheque.controller.gestion;
 
 import com.biblio.bibliotheque.model.gestion.Utilisateur;
 import com.biblio.bibliotheque.model.gestion.Role;

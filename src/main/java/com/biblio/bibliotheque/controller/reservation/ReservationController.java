@@ -1,4 +1,4 @@
-package com.biblio.bibliotheque.controller;
+package com.biblio.bibliotheque.controller.reservation;
 
 import com.biblio.bibliotheque.model.reservation.Reservation;
 import com.biblio.bibliotheque.repository.ReservationRepository;

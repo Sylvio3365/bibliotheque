@@ -1,4 +1,4 @@
-package com.biblio.bibliotheque.controller;
+package com.biblio.bibliotheque.controller.gestion;
 
 import com.biblio.bibliotheque.model.gestion.Adherent;
 import com.biblio.bibliotheque.model.Utilisateur;

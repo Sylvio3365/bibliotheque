@@ -1,4 +1,4 @@
-package com.biblio.bibliotheque.controller;
+package com.biblio.bibliotheque.controller.pret;
 
 import com.biblio.bibliotheque.model.pret.Rendu;
 import com.biblio.bibliotheque.model.pret.Pret;
