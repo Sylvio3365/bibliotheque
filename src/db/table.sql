@@ -1,6 +1,6 @@
-DROP DATABASE if exists pg2;
-CREATE DATABASE pg2;
-\c pg2;
+DROP DATABASE if exists biblio;
+CREATE DATABASE biblio;
+\c biblio;
 
 CREATE TABLE
     Livre (
@@ -214,6 +214,7 @@ CREATE TABLE
         nouveau_date_fin_pret TIMESTAMP NOT NULL,
         date_prolongement TIMESTAMP NOT NULL,
         id_pret INT NOT NULL,
+        statut INT NOT NULL,
         PRIMARY KEY (id_prolongement),
         FOREIGN KEY (id_pret) REFERENCES Pret (id_pret)
     );
