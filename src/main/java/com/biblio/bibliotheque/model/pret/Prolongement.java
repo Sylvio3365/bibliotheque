@@ -1,7 +1,14 @@
 package com.biblio.bibliotheque.model.pret;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Prolongement {
@@ -15,6 +22,9 @@ public class Prolongement {
 
     @Column(name = "date_prolongement", nullable = false)
     private LocalDateTime dateProlongement;
+
+    @Column(name = "statut", nullable = false)
+    private Integer statut;
 
     @ManyToOne
     @JoinColumn(name = "id_pret", nullable = false)
@@ -51,6 +61,14 @@ public class Prolongement {
 
     public void setPret(Pret pret) {
         this.pret = pret;
+    }
+
+    public Integer getStatut() {
+        return statut;
+    }
+
+    public void setStatut(int statut) {
+        this.statut = statut;
     }
 }
 
