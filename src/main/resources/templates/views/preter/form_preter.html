@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Formulaire de Prêt</title>
+</head>
+
+<body>
+    <h1>Formulaire de Prêt</h1>
+
+    <form th:action="@{/preter/add}" th:object="${pret}" method="post">
+
+        <div>
+            <label for="exemplaire">Exemplaire :</label><br>
+            <select id="exemplaire" th:field="*{exemplaire}" required>
+                <option value="" disabled selected>-- Sélectionnez un exemplaire --</option>
+                <option th:each="exemplaire : ${exemplaires}" 
+                        th:value="${exemplaire.id_exemplaire}" 
+                        th:text="${exemplaire.code}"></option>
+            </select>
+        </div>
+
+        <br>
+
+        <div>
+            <label for="adherent">Adhérent :</label><br>
+            <select id="adherent" th:field="*{adherent}" required>
+                <option value="" disabled selected>-- Sélectionnez un adhérent --</option>
+                <option th:each="adherent : ${adherents}" 
+                        th:value="${adherent.idAdherent}" 
+                        th:text="${adherent.nom + ' ' + adherent.prenom}"></option>
+            </select>
+        </div>
+
+        <br>
+
+        <div>
+            <button type="submit">Enregistrer le prêt</button>
+        </div>
+
+    </form>
+
+</body>
+
+</html>
