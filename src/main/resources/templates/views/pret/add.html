@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter un prêt</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h2>Ajouter un prêt</h2>
+
+<form th:action="@{/pret/add}" th:object="${pret}" method="post">
+
+    <label for="date_debut">Date de début :</label>
+    <input type="datetime-local" th:field="*{date_debut}" required />
+    <br>
+
+    <label for="date_fin">Date de fin :</label>
+    <input type="datetime-local" th:field="*{date_fin}" required />
+    <br>
+
+    <label for="exemplaire">Exemplaire :</label>
+    <select th:field="*{exemplaire}" required>
+        <option th:each="ex : ${exemplaires}" 
+                th:value="${ex}" 
+                th:text="'Exemplaire #' + ${ex.id_exemplaire}">
+        </option>
+    </select>
+    <br>
+
+    <label for="adherent">Adhérent :</label>
+    <select th:field="*{adherent}" required>
+        <option th:each="ad : ${adherents}" 
+                th:value="${ad}" 
+                th:text="${ad.nom} + ' ' + ${ad.prenom}">
+        </option>
+    </select>
+    <br>
+
+    <label for="type">Type de prêt :</label>
+    <select th:field="*{type}" required>
+        <option th:each="t : ${types}" 
+                th:value="${t}" 
+                th:text="${t.nom}">
+        </option>
+    </select>
+    <br><br>
+
+    <button type="submit">Valider</button>
+    <a th:href="@{/pret}">Annuler</a>
+
+</form>
+
+</body>
+</html>
