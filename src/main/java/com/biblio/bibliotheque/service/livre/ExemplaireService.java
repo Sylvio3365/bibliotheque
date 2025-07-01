@@ -1,7 +1,9 @@
 package com.biblio.bibliotheque.service.livre;
 
 import com.biblio.bibliotheque.model.livre.Exemplaire;
+import com.biblio.bibliotheque.model.livre.EtatExemplaire;
 import com.biblio.bibliotheque.repository.livre.ExemplaireRepository;
+import com.biblio.bibliotheque.repository.livre.EtatExemplaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,9 @@ import java.util.Optional;
 @Service
 public class ExemplaireService {
 
+    @Autowired
     private final ExemplaireRepository exemplaireRepository;
 
-    @Autowired
     public ExemplaireService(ExemplaireRepository exemplaireRepository) {
         this.exemplaireRepository = exemplaireRepository;
     }
@@ -28,6 +30,10 @@ public class ExemplaireService {
         return exemplaireRepository.findById(id);
     }
 
+    public EtatExemplaire findDernierEtatByExemplaireId(Integer id) {
+        return exemplaireRepository.findDernierEtatByExemplaireId(id);
+    }
+
     // Ajouter ou modifier un exemplaire
     public Exemplaire saveExemplaire(Exemplaire exemplaire) {
         return exemplaireRepository.save(exemplaire);
@@ -38,13 +44,8 @@ public class ExemplaireService {
         exemplaireRepository.deleteById(id);
     }
 
-    // (Optionnel) Rechercher un exemplaire par code
-    // public Exemplaire getExemplaireByCode(String code) {
-    //     return exemplaireRepository.findByCode(code);
-    // }
-
-    // (Optionnel) Rechercher les exemplaires par ID de livre
-    // public List<Exemplaire> getExemplairesByLivreId(Integer idLivre) {
-    //     return exemplaireRepository.findByLivreId(idLivre);
-    // }
+    // Méthode pour récupérer les derniers états des exemplaires
+    public List<EtatExemplaire> getExemplairesAvecDernierEtat() {
+        return exemplaireRepository.getDernierEtatParExemplaire();
+    }
 }

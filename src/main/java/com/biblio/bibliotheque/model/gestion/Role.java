@@ -28,5 +28,9 @@ public class Role {
     public void setNom(String nom) {
         this.nom = nom;
     }
-}
 
+    @Override
+    public String toString() {
+        return "Role [id_role=" + id_role + ", nom=" + nom + "]";
+    }
+}

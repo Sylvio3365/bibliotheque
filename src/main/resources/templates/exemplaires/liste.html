@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Liste des Exemplaires</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2 class="mb-4">Liste des Exemplaires avec leur Dernier État</h2>
+        <div>
+            <p>
+                Connecté en tant que :
+                <span th:text="${utilisateurConnecte != null} ? ${utilisateurConnecte.role.nom} : 'Invité'"></span>
+            </p>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Livre</th>
+                    <th>État</th>
+                    <th>Date de modification</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="etatEx : ${etatExemplaires}">
+                    <td th:text="${etatEx.exemplaire.code}"></td>
+                    <td th:text="${etatEx.exemplaire.livre.titre}"></td>
+                    <td th:text="${etatEx.etat.nom}"></td>
+                    <td th:text="${#temporals.format(etatEx.date_modif, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td>
+                        <a th:href="@{/exemplaires/reserver(id=${etatEx.exemplaire.id_exemplaire})}"
+                            class="btn btn-primary"
+                            th:if="${utilisateurConnecte != null and utilisateurConnecte.role != null and utilisateurConnecte.role.nom == 'adherent'}">
+                            Réserver
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

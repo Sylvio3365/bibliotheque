@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class EtatExemplaireService {
 
+    @Autowired
     private final EtatExemplaireRepository etatExemplaireRepository;
 
-    @Autowired
     public EtatExemplaireService(EtatExemplaireRepository etatExemplaireRepository) {
         this.etatExemplaireRepository = etatExemplaireRepository;
     }
@@ -40,6 +40,6 @@ public class EtatExemplaireService {
 
     // (Optionnel) Récupérer les états par ID d'exemplaire
     // public List<EtatExemplaire> getEtatByExemplaireId(Integer idExemplaire) {
-    //     return etatExemplaireRepository.findByExemplaireId(idExemplaire);
+    // return etatExemplaireRepository.findByExemplaireId(idExemplaire);
     // }
 }

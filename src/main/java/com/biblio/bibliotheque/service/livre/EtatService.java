@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class EtatService {
 
+    @Autowired
     private final EtatRepository etatRepository;
 
-    @Autowired
     public EtatService(EtatRepository etatRepository) {
         this.etatRepository = etatRepository;
     }
@@ -40,11 +40,11 @@ public class EtatService {
 
     // (Optionnel) Récupérer un état par nom
     // public Etat getEtatByNom(String nom) {
-    //     return etatRepository.findByNom(nom);
+    // return etatRepository.findByNom(nom);
     // }
 
     // (Optionnel) Vérifier si un état existe par nom
     // public boolean existsEtatByNom(String nom) {
-    //     return etatRepository.existsByNom(nom);
+    // return etatRepository.existsByNom(nom);
     // }
 }

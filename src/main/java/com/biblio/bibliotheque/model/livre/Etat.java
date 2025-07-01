@@ -28,5 +28,9 @@ public class Etat {
     public void setNom(String nom) {
         this.nom = nom;
     }
-}
 
+    @Override
+    public String toString() {
+        return "Etat [id_etat=" + id_etat + ", nom=" + nom + "]";
+    }
+}
