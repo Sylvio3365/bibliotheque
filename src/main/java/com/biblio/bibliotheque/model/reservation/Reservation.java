@@ -17,12 +17,6 @@ public class Reservation {
     @Column(nullable = false)
     private LocalDateTime date_reservation;
 
-    @Column(nullable = false)
-    private LocalDateTime date_debut_reservation;
-
-    @Column(nullable = false)
-    private LocalDateTime date_fin_reservation;
-
     @ManyToOne
     @JoinColumn(name = "id_exemplaire", nullable = false)
     private Exemplaire exemplaire;
@@ -46,22 +40,6 @@ public class Reservation {
 
     public void setDate_reservation(LocalDateTime date_reservation) {
         this.date_reservation = date_reservation;
-    }
-
-    public LocalDateTime getDate_debut_reservation() {
-        return date_debut_reservation;
-    }
-
-    public void setDate_debut_reservation(LocalDateTime date_debut_reservation) {
-        this.date_debut_reservation = date_debut_reservation;
-    }
-
-    public LocalDateTime getDate_fin_reservation() {
-        return date_fin_reservation;
-    }
-
-    public void setDate_fin_reservation(LocalDateTime date_fin_reservation) {
-        this.date_fin_reservation = date_fin_reservation;
     }
 
     public Exemplaire getExemplaire() {

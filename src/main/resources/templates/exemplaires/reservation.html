@@ -13,25 +13,14 @@
         <div class="mb-3">
             <strong>Code Exemplaire :</strong> <span th:text="${exemplaire.code}"></span><br />
             <strong>Livre :</strong> <span th:text="${exemplaire.livre.titre}"></span><br>
-            <strong>Etat :</strong> <span th:text="${etat}"></span>
+            <strong>Etat :</strong> <span th:text="${etat}"></span><br>
+            <strong>Id exemplaire:</strong> <span th:text="${exemplaire.id_exemplaire}"></span>
         </div>
 
-        <form th:action="@{/exemplaires/reserver}" th:object="${reservation}" method="post">
+        <form th:action="@{/reservation/reserver}" th:object="${reservation}" method="post">
             <input type="hidden" name="id_exemplaire" th:value="${exemplaire.id_exemplaire}" />
-
-            <div class="mb-3">
-                <label for="dateDebut" class="form-label">Date début réservation</label>
-                <input type="datetime-local" id="dateDebut" th:field="*{date_debut_reservation}" class="form-control"
-                    required />
-            </div>
-
-            <div class="mb-3">
-                <label for="dateFin" class="form-label">Date fin réservation</label>
-                <input type="datetime-local" id="dateFin" th:field="*{date_fin_reservation}" class="form-control"
-                    required />
-            </div>
-
-            <button type="submit" class="btn btn-success">Confirmer la réservation</button>
+            <input type="hidden" name="id_etat" th:value="${etat.id_etat}">
+            <button type="submit" class="btn btn-success">Réservation</button>
         </form>
     </div>
 </body>

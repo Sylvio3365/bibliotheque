@@ -11,9 +11,9 @@ import java.util.Optional;
 @Service
 public class ReservationService {
 
+    @Autowired
     private final ReservationRepository reservationRepository;
 
-    @Autowired
     public ReservationService(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
     }
@@ -38,13 +38,18 @@ public class ReservationService {
         reservationRepository.deleteById(id);
     }
 
+    public void create (Reservation r) {
+        reservationRepository.save(r);
+    }
+
     // (Optionnel) Récupérer les réservations par adhérent
     // public List<Reservation> getReservationsByAdherentId(Integer idAdherent) {
-    //     return reservationRepository.findByAdherentId(idAdherent);
+    // return reservationRepository.findByAdherentId(idAdherent);
     // }
 
     // (Optionnel) Récupérer les réservations par exemplaire
-    // public List<Reservation> getReservationsByExemplaireId(Integer idExemplaire) {
-    //     return reservationRepository.findByExemplaireId(idExemplaire);
+    // public List<Reservation> getReservationsByExemplaireId(Integer idExemplaire)
+    // {
+    // return reservationRepository.findByExemplaireId(idExemplaire);
     // }
 }

@@ -30,14 +30,8 @@ public class StatutService {
         statutRepository.deleteById(id);
     }
 
-    // Méthodes personnalisées (à décommenter si implémentées dans repository)
-    /*
     public Statut findByNom(String nom) {
         return statutRepository.findByNom(nom);
     }
 
-    public boolean existsByNom(String nom) {
-        return statutRepository.existsByNom(nom);
-    }
-    */
 }

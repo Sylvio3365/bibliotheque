@@ -11,35 +11,36 @@ import java.util.Optional;
 @Service
 public class StatutReservationService {
 
+    @Autowired
     private final StatutReservationRepository statutReservationRepository;
 
-    @Autowired
     public StatutReservationService(StatutReservationRepository statutReservationRepository) {
         this.statutReservationRepository = statutReservationRepository;
     }
 
-    // Récupérer tous les statuts
     public List<StatutReservation> getAllStatuts() {
         return statutReservationRepository.findAll();
     }
 
-    // Récupérer un statut par ID
     public Optional<StatutReservation> getStatutById(Integer id) {
         return statutReservationRepository.findById(id);
     }
 
-    // Enregistrer ou modifier un statut
     public StatutReservation saveStatut(StatutReservation statut) {
         return statutReservationRepository.save(statut);
     }
 
-    // Supprimer un statut
     public void deleteStatut(Integer id) {
         statutReservationRepository.deleteById(id);
     }
 
+    public void create(StatutReservation statutReservation) {
+        statutReservationRepository.save(statutReservation);
+    }
+
     // (Optionnel) Récupérer les statuts par réservation
-    // public List<StatutReservation> getStatutsByReservationId(Integer idReservation) {
-    //     return statutReservationRepository.findByReservationId(idReservation);
+    // public List<StatutReservation> getStatutsByReservationId(Integer
+    // idReservation) {
+    // return statutReservationRepository.findByReservationId(idReservation);
     // }
 }

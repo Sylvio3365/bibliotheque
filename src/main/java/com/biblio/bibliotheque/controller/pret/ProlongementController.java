@@ -1,7 +1,6 @@
 package com.biblio.bibliotheque.controller.pret;
 
 import com.biblio.bibliotheque.model.pret.Prolongement;
-import com.biblio.bibliotheque.model.pret.Pret;
 import com.biblio.bibliotheque.repository.pret.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
