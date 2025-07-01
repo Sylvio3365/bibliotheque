@@ -183,3 +183,9 @@ INSERT INTO Sanction (date_debut, date_fin, id_adherent) VALUES
 ('2024-06-01', '2024-06-15', 3),
 ('2024-07-10', '2024-07-25', 3),
 ('2024-08-01', '2024-08-31', 3);
+
+
+SELECT COUNT(*) > 0 AS is_sanctioned
+FROM Sanction
+WHERE id_adherent = 1
+  AND '2024-01-16' BETWEEN date_debut AND date_fin;
