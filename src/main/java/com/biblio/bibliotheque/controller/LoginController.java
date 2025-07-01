@@ -1,6 +1,7 @@
-package com.biblio.bibliotheque.controller;
+package com.biblio.bibliotheque.controller.gestion;
 
 import com.biblio.bibliotheque.service.gestion.UtilisateurService;
+
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +14,17 @@ public class LoginController {
     @Autowired
     private UtilisateurService utilisateurService;
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public String loginForm() {
-        return "login/login"; // templates/login/login.html
+        return "login/login"; 
     }
+
+    @GetMapping("/login")
+    public String logout() {
+        return "login/login"; 
+    }
+
+
 
     @PostMapping("/login")
     public String login(@RequestParam String username,

@@ -153,3 +153,5 @@ VALUES
     (NOW (), 9, 2);
 
 -- EX-0009 - en pret
+
+INSERT INTO Statut_Adherent (nom) VALUES ('Actif'), ('Inactif');
