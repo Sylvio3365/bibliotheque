@@ -179,7 +179,8 @@ CREATE TABLE
 CREATE TABLE
     Sanction (
         id_sanction SERIAL,
-        date_sanction TIMESTAMP NOT NULL,
+        date_debut TIMESTAMP NOT NULL,
+        date_fin TIMESTAMP NOT NULL,
         id_adherent INT NOT NULL,
         PRIMARY KEY (id_sanction),
         FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent)

@@ -33,6 +33,8 @@ public class Adherent {
         return idAdherent;
     }
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/*******  1ce61042-cff4-42dd-9528-89ef2d6493b1  *******/
     public void setIdAdherent(Integer idAdherent) {
         this.idAdherent = idAdherent;
     }
