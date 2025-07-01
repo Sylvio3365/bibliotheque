@@ -1,8 +1,6 @@
 package com.biblio.bibliotheque.model.pret;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
 
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.livre.Type;
@@ -38,31 +36,3 @@ public class TypeExemplairePret {
         this.type = type;
     }
 }
-
-// Classe Id composite pour TypeExemplairePret
-class TypeExemplairePretId implements Serializable {
-    private Integer exemplaire;
-    private Integer type;
-
-    public TypeExemplairePretId() {}
-
-    public TypeExemplairePretId(Integer exemplaire, Integer type) {
-        this.exemplaire = exemplaire;
-        this.type = type;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TypeExemplairePretId)) return false;
-        TypeExemplairePretId that = (TypeExemplairePretId) o;
-        return Objects.equals(exemplaire, that.exemplaire) &&
-               Objects.equals(type, that.type);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(exemplaire, type);
-    }
-}
-
