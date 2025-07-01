@@ -1,8 +1,6 @@
 package com.biblio.bibliotheque.controller.gestion;
 
 import com.biblio.bibliotheque.model.gestion.Adherent;
-import com.biblio.bibliotheque.model.gestion.Utilisateur;
-import com.biblio.bibliotheque.model.gestion.Profil;
 import com.biblio.bibliotheque.repository.gestion.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
