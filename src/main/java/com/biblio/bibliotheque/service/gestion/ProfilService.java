@@ -30,6 +30,11 @@ public class ProfilService {
         profilRepository.deleteById(id);
     }
 
+    // Nouvelle méthode pour récupérer idRegle via idProfil
+    public Integer getIdRegleByIdProfil(Integer idProfil) {
+        return profilRepository.getIdRegleByIdProfil(idProfil);
+    }
+
     // Exemples méthodes personnalisées
     /*
     public Profil findByNom(String nom) {

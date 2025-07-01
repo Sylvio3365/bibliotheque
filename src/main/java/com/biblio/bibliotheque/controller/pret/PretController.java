@@ -1,10 +1,11 @@
 package com.biblio.bibliotheque.controller.pret;
 
-import com.biblio.bibliotheque.model.gestion.Adherent;
+import com.biblio.bibliotheque.model.gestion.*;
 import com.biblio.bibliotheque.model.pret.Pret;
 import com.biblio.bibliotheque.service.gestion.AdherentService;
 import com.biblio.bibliotheque.service.livre.*;
 import com.biblio.bibliotheque.service.pret.PretService;
+import com.biblio.bibliotheque.service.gestion.*;
 import com.biblio.bibliotheque.repository.pret.PretRepository;
 import com.biblio.bibliotheque.repository.livre.ExemplaireRepository;
 import com.biblio.bibliotheque.repository.livre.TypeRepository;
@@ -47,6 +48,11 @@ public class PretController {
     @Autowired
     private LivreService livreService;
 
+    @Autowired
+    private ProfilService profilService;
+
+    @Autowired
+    private RegleService regleService;
 
     @GetMapping("/formpreter/livre")
     public String showFormPreterLivre(Model model) {
@@ -57,7 +63,6 @@ public class PretController {
         return "views/preter/form_preter";
     }
 
-
     @PostMapping("/add")
     public String savePret(@ModelAttribute Pret pret, Model model) {
         Integer idAdherent = pret.getAdherent().getIdAdherent();
@@ -66,23 +71,34 @@ public class PretController {
 
         Integer idLivre = livreService.getIdLivreByIdExemplaire(idExemplaire);
         Integer ageRestriction = (idLivre != null) ? livreService.getAgeRestrictionByIdLivre(idLivre) : null;
-        Integer ageAdherent = adherentService.getAgeAtDate(idAdherent, dateDebut); // <-- Appel de la méthode
+        Integer ageAdherent = adherentService.getAgeAtDate(idAdherent, dateDebut);
 
-        String statut = adherentService.getStatutAdherentOnDate(idAdherent, dateDebut);
-        boolean disponible = exemplaireService.isExemplaireDisponible(idExemplaire);
         Optional<Adherent> optionalAdherent = adherentService.getById(idAdherent);
-        boolean isSanctioned = sanctionService.isAdherentSanctioned(idAdherent, dateDebut.atStartOfDay());
-
         if (optionalAdherent.isEmpty()) {
             model.addAttribute("message", "Adhérent introuvable.");
             return "views/preter/verification_pret";
         }
 
         Adherent adherent = optionalAdherent.get();
-        int nbMaxPrets = adherent.getProfil().getRegle().getNb_livre_preter_max();
+        Integer idProfil = adherent.getProfil().getId_profil();
+        Integer idRegle = profilService.getIdRegleByIdProfil(idProfil);
+
+        Regle regle = (idRegle != null) ? regleService.getById(idRegle).orElse(null) : null;
+
+        String statut = adherentService.getStatutAdherentOnDate(idAdherent, dateDebut);
+        boolean disponible = exemplaireService.isExemplaireDisponible(idExemplaire);
+        boolean isSanctioned = sanctionService.isAdherentSanctioned(idAdherent, dateDebut.atStartOfDay());
+
+        int nbMaxPrets = (regle != null) ? regle.getNb_livre_preter_max() : 0;
         int nbPretsActifs = pretService.countPretsActifsParAdherentALaDate(idAdherent, dateDebut);
 
-        // Ajout des attributs pour la vue
+        // Ajuste la date de fin
+        if (regle != null && dateDebut != null) {
+            LocalDate dateFin = pretService.ajusterDateFin(dateDebut, regle.getNb_jour_duree_pret_max());
+            pret.setDate_fin(dateFin);
+            model.addAttribute("dateFin", dateFin);
+        }
+
         model.addAttribute("dateDebut", dateDebut);
         model.addAttribute("idAdherent", idAdherent);
         model.addAttribute("idExemplaire", idExemplaire);
@@ -92,25 +108,33 @@ public class PretController {
         model.addAttribute("statut", statut);
         model.addAttribute("disponible", disponible);
         model.addAttribute("isSanctioned", isSanctioned);
+        model.addAttribute("idRegle", idRegle);
+        model.addAttribute("regle", regle);
 
-        // Vérification des règles métier
-        if (isSanctioned) {
-            model.addAttribute("message", "L'adhérent est sanctionné à cette date.");
+        // ✅ Enregistre le prêt uniquement si tout est valide
+        if (!isSanctioned &&
+            nbPretsActifs < nbMaxPrets &&
+            disponible &&
+            (ageRestriction == null || ageAdherent >= ageRestriction) &&
+            "actif".equalsIgnoreCase(statut)) {
+
+            pretService.savePret(pret);
+            model.addAttribute("message", "✅ Le prêt a été enregistré avec succès !");
+        } else if (isSanctioned) {
+            model.addAttribute("message", "❌ L'adhérent est sanctionné à cette date.");
         } else if (nbPretsActifs >= nbMaxPrets) {
-            model.addAttribute("message", "L'adhérent a déjà atteint la limite de prêts (" + nbMaxPrets + ").");
+            model.addAttribute("message", "❌ L'adhérent a déjà atteint la limite de prêts (" + nbMaxPrets + ").");
         } else if (!disponible) {
-            model.addAttribute("message", "L'exemplaire n'est pas disponible.");
+            model.addAttribute("message", "❌ L'exemplaire n'est pas disponible.");
         } else if (ageRestriction != null && ageAdherent < ageRestriction) {
-            model.addAttribute("message", "L'adhérent n'a pas l'âge requis (" + ageRestriction + " ans) pour emprunter ce livre.");
-        } else if ("actif".equalsIgnoreCase(statut)) {
-            model.addAttribute("message", "Prêt reçu : exemplaire disponible, adhérent actif.");
-        } else {
-            model.addAttribute("message", "Prêt reçu : exemplaire disponible, mais adhérent inactif.");
+            model.addAttribute("message", "❌ L'adhérent n'a pas l'âge requis (" + ageRestriction + " ans) pour emprunter ce livre.");
+        } else if (!"actif".equalsIgnoreCase(statut)) {
+            model.addAttribute("message", "❌ L'adhérent est inactif à cette date.");
         }
 
         return "views/preter/verification_pret";
     }
 
-   
+
 
 }
