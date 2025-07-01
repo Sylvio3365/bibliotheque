@@ -1,3 +1,7 @@
+DROP DATABASE if exists pg2;
+CREATE DATABASE pg2;
+\c pg2;
+
 CREATE TABLE
     Livre (
         id_livre SERIAL,
