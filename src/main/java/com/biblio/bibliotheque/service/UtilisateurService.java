@@ -1,9 +1,10 @@
 package com.biblio.bibliotheque.service;
 
-import com.biblio.bibliotheque.model.Utilisateur;
-import com.biblio.bibliotheque.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.biblio.bibliotheque.model.gestion.Utilisateur;
+import com.biblio.bibliotheque.repository.gestion.UtilisateurRepository;
 
 import java.util.Optional;
 
