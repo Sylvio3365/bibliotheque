@@ -1,16 +1,22 @@
 package com.biblio.bibliotheque.controller.pret;
 
-import com.biblio.bibliotheque.model.pret.Rendu;
-import com.biblio.bibliotheque.model.pret.Pret;
-import com.biblio.bibliotheque.repository.pret.*;
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import com.biblio.bibliotheque.model.pret.Rendu;
+import com.biblio.bibliotheque.repository.pret.PretRepository;
+import com.biblio.bibliotheque.repository.pret.RenduRepository;
+import com.biblio.bibliotheque.service.gestion.AdherentService;
+import com.biblio.bibliotheque.service.pret.PretService;
 
 @Controller
 @RequestMapping("/rendu")
@@ -21,6 +27,12 @@ public class RenduController {
 
     @Autowired
     private PretRepository pretRepository;
+
+    @Autowired
+    private AdherentService adherentService;
+
+    @Autowired
+    private PretService pretService;
 
     @GetMapping
     public String listRendus(Model model) {
@@ -63,4 +75,47 @@ public class RenduController {
         renduRepository.deleteById(id);
         return "redirect:/rendu";
     }
+
+    @GetMapping("/retour")
+    public String PageRetour(Model model) {
+        model.addAttribute("retour", "Bienvenue dans la page retour de livre");
+        return "views/rendu/retour_livre";
+    }
+
+    @GetMapping("/valider")
+    public String traiterFormulaire(
+        @RequestParam("idAdherent") Integer idAdherent,
+        @RequestParam("idPret") Integer idPret,
+        Model model
+    ) {
+        try {
+            boolean existAdherent = adherentService.isExistAdherent(idAdherent);
+            boolean existPret = pretService.existById(idPret);
+
+            if (!existAdherent) {
+                model.addAttribute("message", "Erreur : l'adhérent avec l'ID " + idAdherent + " n'existe pas.");
+                model.addAttribute("messageType", "error");
+            } else if (!existPret) {
+                model.addAttribute("message", "Erreur : le prêt avec l'ID " + idPret + " n'existe pas.");
+                model.addAttribute("messageType", "error");
+            } else {
+                boolean correspond = pretService.isPretPourAdherent(idPret, idAdherent);
+                if (!correspond) {
+                    model.addAttribute("message", "Erreur : ce prêt n'appartient pas à cet adhérent.");
+                    model.addAttribute("messageType", "error");
+                } else {
+                    model.addAttribute("message", " Prêt valide pour cet adhérent");
+                    model.addAttribute("messageType", "success");
+                }
+            }
+
+        } catch (Exception e) {
+            model.addAttribute("message", "Erreur inattendue lors de la vérification.");
+            model.addAttribute("messageType", "error");
+            e.printStackTrace();
+        }
+
+        return "views/rendu/retour_livre";
+    }
+
 }

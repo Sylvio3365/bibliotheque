@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retour de livre</title>
+</head>
+<body>
+    <div class="form">
+        <form action="/rendu/valider" method="get">
+            <div>
+                <label for="idAdherent">Numéro de l'adhérent</label>
+                <input type="number" name="idAdherent" id="idAdherent" required>
+            </div>
+            <div>
+                <label for="idPret">ID Prêt</label>
+                <input type="number" name="idPret" id="idPret" required>
+            </div>
+            <div>
+                <button type="submit">Valider</button>
+            </div>
+        </form>
+    </div>
+    <div th:if="${message}">
+        <p th:text="${message}"
+           th:class="${messageType == 'success'} ? 'text-success' : 'text-error'">
+        </p>
+    </div>
+    
+    <style>
+        .text-success {
+            color: green;
+        }
+    
+        .text-error {
+            color: red;
+        }
+    </style>
+    
+</body>
+</html>

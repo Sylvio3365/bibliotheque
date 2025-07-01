@@ -153,3 +153,12 @@ VALUES
     (NOW (), 9, 2);
 
 -- EX-0009 - en pret
+
+INSERT INTO Pret (date_debut, date_fin, id_exemplaire, id_adherent, id_type)
+VALUES (
+    NOW(),                         -- date_debut : maintenant
+    NOW() + INTERVAL '7 days',     -- date_fin : dans 7 jours
+    5,                             -- id_exemplaire
+    1,                             -- id_adherent
+    2                              -- id_type
+);

@@ -1,6 +1,6 @@
-DROP DATABASE if exists pg2;
-CREATE DATABASE pg2;
-\c pg2;
+DROP DATABASE if exists biblio;
+CREATE DATABASE biblio;
+\c biblio;
 
 CREATE TABLE
     Livre (

@@ -5,6 +5,8 @@ import com.biblio.bibliotheque.repository.gestion.JourFerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +30,20 @@ public class JourFerieService {
 
     public void delete(Integer id) {
         jourFerieRepository.deleteById(id);
+    }
+
+
+    public boolean isWeekend(LocalDate date) {
+        DayOfWeek day = date.getDayOfWeek();
+        return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY;
+    }
+
+    public List<JourFerie> getAllJourFerie() {
+        return jourFerieRepository.findAll();
+    }
+
+    public List<LocalDate> getDatesJourFerie() {
+        return jourFerieRepository.getDatesJourFerie();
     }
 
     // Exemples méthodes personnalisées

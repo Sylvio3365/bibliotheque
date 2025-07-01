@@ -1,12 +1,13 @@
 package com.biblio.bibliotheque.service.gestion;
 
-import com.biblio.bibliotheque.model.gestion.Adherent;
-import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.biblio.bibliotheque.model.gestion.Adherent;
+import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
 
 @Service
 public class AdherentService {
@@ -30,14 +31,7 @@ public class AdherentService {
         adherentRepository.deleteById(id);
     }
 
-    // Exemples méthodes personnalisées
-    /*
-    public Adherent findByNomAndPrenom(String nom, String prenom) {
-        return adherentRepository.findByNomAndPrenom(nom, prenom);
+    public boolean isExistAdherent(Integer idAdherent) {
+        return adherentRepository.existsById(idAdherent);
     }
-
-    public Adherent findByUtilisateurId(Integer idUtilisateur) {
-        return adherentRepository.findByUtilisateurId(idUtilisateur);
-    }
-    */
 }
