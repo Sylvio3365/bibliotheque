@@ -1,6 +1,6 @@
-DROP DATABASE if exists pg2;
-CREATE DATABASE pg2;
-\c pg2;
+DROP DATABASE if exists bibliotheque;
+CREATE DATABASE bibliotheque;
+\c bibliotheque;
 
 
 CREATE TABLE Restriction (
@@ -227,6 +227,7 @@ CREATE TABLE
         nouveau_date_fin_pret TIMESTAMP NOT NULL,
         date_prolongement TIMESTAMP NOT NULL,
         id_pret INT NOT NULL,
+        status INT NOT NULL,
         PRIMARY KEY (id_prolongement),
         FOREIGN KEY (id_pret) REFERENCES Pret (id_pret)
     );
@@ -249,4 +250,3 @@ CREATE TABLE
         FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent),
         FOREIGN KEY (id_abonnement) REFERENCES Abonnement (id_abonnement)
     );
-
