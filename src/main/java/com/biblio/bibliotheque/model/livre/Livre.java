@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Table(name = "Livre")
 public class Livre {
 
     @Id
@@ -17,7 +18,7 @@ public class Livre {
     private String auteur;
 
     @OneToOne
-    @JoinColumn(name = "id_restriction", unique = true)
+    @JoinColumn(name = "id_restriction", nullable = true)
     private Restriction restriction;
 
     public Integer getIdLivre() {

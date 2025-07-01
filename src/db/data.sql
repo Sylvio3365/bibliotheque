@@ -6,7 +6,7 @@ INSERT INTO Restriction (age_min) VALUES
     (12);
 
 INSERT INTO Livre (titre, auteur, id_restriction) VALUES
-    ('Le Petit Prince', 'Antoine de Saint-Exupéry', 1), 
+    ('Le Petit Prince', 'Antoine de Saint-Exupéry', null), 
     ('1984', 'George Orwell', 2),                      
     ('Les Misérables', 'Victor Hugo', 3);              
 

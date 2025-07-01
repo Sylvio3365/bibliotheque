@@ -8,15 +8,13 @@ CREATE TABLE Restriction (
     age_min INT NOT NULL
 );
 
-
 CREATE TABLE Livre (
     id_livre SERIAL PRIMARY KEY,
     titre VARCHAR(50) NOT NULL,
     auteur VARCHAR(50),
-    id_restriction INT UNIQUE,
+    id_restriction INT,
     FOREIGN KEY (id_restriction) REFERENCES Restriction(id_restriction)
 );
-
 
 
 CREATE TABLE
