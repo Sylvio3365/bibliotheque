@@ -1,46 +1,41 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Liste des prêts</title>
+    <title>Liste des Prêts</title>
 </head>
 <body>
-    <h1>Liste des prêts</h1>
-    
-    <div th:if="${error != null}" class="alert alert-danger">
-        <span th:text="${error}"></span>
+    <h1>Mes Prêts</h1>
+    <div th:if="${success}">
+        <p th:text="${success}" style="color: green;"></p>
     </div>
-    
-    <div th:if="${prets != null and !prets.empty}">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID Prêt</th>
-                    <th>Livre</th>
-                    <th>Adhérent</th>
-                    <th>Date début</th>
-                    <th>Date fin</th>
-                    <th>Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="pret : ${prets}">
-                    <td th:text="${pret.id_pret}"></td>
-                    <td th:text="${pret.exemplaire?.livre?.titre}"></td>
-                    <td th:text="${pret.adherent?.nom + ' ' + pret.adherent?.prenom}"></td>
-                    <!-- Utilisez les noms exacts des propriétés -->
-                    <td th:text="${pret.date_debut != null} ? ${#temporals.format(pret.date_debut, 'dd/MM/yyyy HH:mm')} : ''"></td>
-                    <td th:text="${pret.date_fin != null} ? ${#temporals.format(pret.date_fin, 'dd/MM/yyyy HH:mm')} : ''"></td>
-                    <td th:text="${pret.type?.nom}"></td>
-                </tr>
-            </tbody>
-        </table>
+    <div th:if="${error}">
+        <p th:text="${error}" style="color: red;"></p>
     </div>
-    
-    <div th:if="${prets == null or prets.empty}">
-        <p>Aucun prêt trouvé</p>
-    </div>
-    
-    <a href="/pret/add">Ajouter un prêt</a> |
-    <a href="/hello">Retour à l'accueil</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Exemplaire</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pret : ${prets}">
+                <td th:text="${pret.id_pret}"></td>
+                <td th:text="${pret.date_debut}"></td>
+                <td th:text="${pret.date_fin}"></td>
+                <td th:text="${pret.exemplaire.code}"></td>
+                <td>
+                    <form th:action="@{/prolongement/demander/{id}(id=${pret.id_pret})}" method="post">
+                        <input type="date" name="dateFinDemandee" required/>
+                        <button type="submit">Prolonger</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

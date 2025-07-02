@@ -26,7 +26,11 @@ public class LoginController {
         return utilisateurService.login(username, mdp).map(utilisateur -> {
             session.setAttribute("user", utilisateur);
             session.setAttribute("role", utilisateur.getRole().getNom());
-            return "redirect:/hello";
+            if ("bibliothequaire".equals(utilisateur.getRole().getNom())) {
+                return "redirect:/librarian/prolongement";
+            } else {
+                return "redirect:/pret/liste";
+            }
         }).orElseGet(() -> {
             model.addAttribute("error", "Nom d'utilisateur ou mot de passe incorrect");
             return "login/login";

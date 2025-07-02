@@ -207,29 +207,26 @@ CREATE TABLE
         UNIQUE (id_pret),
         FOREIGN KEY (id_pret) REFERENCES Pret (id_pret)
     );
+CREATE TABLE Prolongement (
+    id_prolongement SERIAL,
+    nouveau_date_fin_pret TIMESTAMP NOT NULL,
+    date_prolongement TIMESTAMP NOT NULL,
+    id_pret INT NOT NULL,
+    PRIMARY KEY (id_prolongement),
+    FOREIGN KEY (id_pret) REFERENCES Pret (id_pret)
+);
 
-CREATE TABLE
-    Prolongement (
-        id_prolongement SERIAL,
-        nouveau_date_fin_pret TIMESTAMP NOT NULL,
-        date_prolongement TIMESTAMP NOT NULL,
-        id_pret INT NOT NULL,
-        PRIMARY KEY (id_prolongement),
-        FOREIGN KEY (id_pret) REFERENCES Pret (id_pret)
-    );
-
-CREATE TABLE
-    StatusProlongement (
-        id_status SERIAL
-        id_prolongement SERIAL,
-        date_prolongement TIMESTAMP NOT NULL,
-        id_pret INT NOT NULL,
-        status INT NOT NULL,
-        status_traintement INT NOT NULL,
-        PRIMARY KEY (id_status),
-        FOREIGN KEY (id_pret) REFERENCES Pret (id_pret),
-        FOREIGN KEY (id_prolongement) REFERENCES Pret (id_prolongement)
-    );
+CREATE TABLE StatusProlongement (
+    id_status SERIAL PRIMARY KEY,
+    id_prolongement INT,
+    date_prolongement TIMESTAMP NOT NULL,
+    date_fin_demandee TIMESTAMP NOT NULL,
+    id_pret INT NOT NULL,
+    status INT NOT NULL,
+    status_traintement INT NOT NULL,
+    FOREIGN KEY (id_pret) REFERENCES Pret (id_pret),
+    FOREIGN KEY (id_prolongement) REFERENCES Prolongement (id_prolongement)
+);
 
 
 CREATE TABLE
@@ -251,16 +248,3 @@ CREATE TABLE
         FOREIGN KEY (id_abonnement) REFERENCES Abonnement (id_abonnement)
     );
 
-CREATE TABLE
-    Jour_Ferie (
-        id_jour_ferie SERIAL PRIMARY KEY,
-        description VARCHAR(50),
-        date_jf DATE NOT NULL
-    );
-
-CREATE TABLE
-    Regle_Jour_Ferie (
-        id_regle_jour_ferie SERIAL PRIMARY KEY,
-        comportement INT NOT NULL,
-        date_modif TIMESTAMP NOT NULL
-    );

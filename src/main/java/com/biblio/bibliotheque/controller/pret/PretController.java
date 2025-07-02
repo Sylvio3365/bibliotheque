@@ -99,16 +99,16 @@ public class PretController {
 
         // Si pas d'utilisateur en session, rediriger vers login (optionnel)
         if (utilisateur == null) {
-            return "redirect:/login"; // À supprimer si vous ne voulez aucune redirection
+            return "redirect:/login"; 
         }
 
         // Trouver l'adhérent lié à cet utilisateur
         Adherent adherent = adherentRepository.findByUtilisateur(utilisateur)
-                .orElse(null); // Retourne null si pas trouvé au lieu de throw exception
+                .orElse(null); 
 
         if (adherent == null) {
             model.addAttribute("error", "Aucun adhérent trouvé");
-            return "pret/list"; // Affiche la page vide avec message d'erreur
+            return "pret/list"; 
         }
 
         // Récupérer les prêts de cet adhérent

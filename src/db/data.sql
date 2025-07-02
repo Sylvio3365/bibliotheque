@@ -155,13 +155,8 @@ VALUES
 -- EX-0009 - en pret
 
 -- Emprunter EX-0007 et EX-0008 pour l'adhérent 'Rakoto Jean' (id_adherent = 1)
-INSERT INTO Pret (date_pret, date_retour_prevue, id_adherent, id_type)
+INSERT INTO
+    Pret (date_debut, date_fin, id_exemplaire, id_adherent, id_type)
 VALUES
-    (NOW(), NOW() + INTERVAL '15 days', 1, 1), -- Pret 1 (type Maison)
-    (NOW(), NOW() + INTERVAL '10 days', 1, 2); -- Pret 2 (type Sur place)
-
--- Lier les exemplaires à ces prêts (EX-0007 et EX-0008)
-INSERT INTO Exemplaire_Pret (id_pret, id_exemplaire)
-VALUES
-    (1, 7), -- EX-0007
-    (2, 8); -- EX-0008
+    (NOW (), NOW () + INTERVAL '15 days', 7, 1, 1),
+    (NOW (), NOW () + INTERVAL '10 days', 8, 1, 2);

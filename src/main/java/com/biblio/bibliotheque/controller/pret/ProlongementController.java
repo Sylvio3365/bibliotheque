@@ -1,14 +1,15 @@
 package com.biblio.bibliotheque.controller.pret;
 
 import com.biblio.bibliotheque.model.pret.Prolongement;
-import com.biblio.bibliotheque.model.pret.Pret;
-import com.biblio.bibliotheque.repository.pret.*;
-
+import com.biblio.bibliotheque.repository.pret.ProlongementRepository;
+import com.biblio.bibliotheque.service.pret.ProlongementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -19,7 +20,7 @@ public class ProlongementController {
     private ProlongementRepository prolongementRepository;
 
     @Autowired
-    private PretRepository pretRepository;
+    private ProlongementService prolongementService;
 
     @GetMapping
     public String listProlongements(Model model) {
@@ -28,38 +29,18 @@ public class ProlongementController {
         return "views/prolongement/list";
     }
 
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        model.addAttribute("prolongement", new Prolongement());
-        model.addAttribute("prets", pretRepository.findAll());
-        return "views/prolongement/add";
+    @PostMapping("/demander/{id}")
+    public String demanderProlongement(@PathVariable("id") Integer id, 
+                                       @RequestParam("dateFinDemandee") String dateFinDemandeeStr, 
+                                       RedirectAttributes redirectAttributes) {
+        try {
+            LocalDateTime dateFinDemandee = java.time.LocalDate.parse(dateFinDemandeeStr).atStartOfDay();
+            prolongementService.demanderProlongement(id, dateFinDemandee);
+            redirectAttributes.addFlashAttribute("success", "Demande de prolongation enregistrée.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/pret/liste";
     }
 
-    @PostMapping("/add")
-    public String addProlongement(@ModelAttribute Prolongement prolongement) {
-        prolongementRepository.save(prolongement);
-        return "redirect:/prolongement";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Integer id, Model model) {
-        Prolongement prolongement = prolongementRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid prolongement ID: " + id));
-        model.addAttribute("prolongement", prolongement);
-        model.addAttribute("prets", pretRepository.findAll());
-        return "views/prolongement/edit";
-    }
-
-    @PostMapping("/edit/{id}")
-    public String updateProlongement(@PathVariable("id") Integer id, @ModelAttribute Prolongement prolongement) {
-        prolongement.setId_prolongement(id);
-        prolongementRepository.save(prolongement);
-        return "redirect:/prolongement";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteProlongement(@PathVariable("id") Integer id) {
-        prolongementRepository.deleteById(id);
-        return "redirect:/prolongement";
-    }
 }
