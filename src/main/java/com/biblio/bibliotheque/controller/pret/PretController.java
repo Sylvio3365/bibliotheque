@@ -2,11 +2,11 @@ package com.biblio.bibliotheque.controller.pret;
 
 import com.biblio.bibliotheque.model.gestion.*;
 import com.biblio.bibliotheque.model.pret.Pret;
-import com.biblio.bibliotheque.service.gestion.AdherentService;
 import com.biblio.bibliotheque.service.livre.*;
 import com.biblio.bibliotheque.service.pret.PretService;
 import com.biblio.bibliotheque.service.gestion.*;
 import com.biblio.bibliotheque.repository.pret.PretRepository;
+import com.biblio.bibliotheque.repository.reservation.ReservationRepository;
 import com.biblio.bibliotheque.repository.livre.ExemplaireRepository;
 import com.biblio.bibliotheque.repository.livre.TypeRepository;
 import com.biblio.bibliotheque.service.sanction.SanctionService;
@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/preter")
 public class PretController {
+
+    @Autowired
+    private ReservationRepository reservationRepository;
+
 
     @Autowired
     private PretRepository pretRepository;
@@ -98,6 +102,15 @@ public class PretController {
             pret.setDate_fin(dateFin);
             model.addAttribute("dateFin", dateFin);
         }
+        LocalDateTime dateDebutPret = pret.getDate_debut().atStartOfDay();
+LocalDateTime dateFinPret = pret.getDate_fin().atStartOfDay();
+
+int nbReservations = reservationRepository.countReservationsConflict(
+    idExemplaire,
+    dateDebutPret,
+    dateFinPret
+);
+
 
         model.addAttribute("dateDebut", dateDebut);
         model.addAttribute("idAdherent", idAdherent);
@@ -111,8 +124,10 @@ public class PretController {
         model.addAttribute("idRegle", idRegle);
         model.addAttribute("regle", regle);
 
-        // ✅ Enregistre le prêt uniquement si tout est valide
-        if (!isSanctioned &&
+        if (nbReservations > 0) {
+            model.addAttribute("message", "❌ L'exemplaire est déjà réservé pendant cette période.");
+            return "views/preter/verification_pret";
+        }else if (!isSanctioned &&
             nbPretsActifs < nbMaxPrets &&
             disponible &&
             (ageRestriction == null || ageAdherent >= ageRestriction) &&
@@ -120,7 +135,7 @@ public class PretController {
 
             pretService.savePret(pret);
             model.addAttribute("message", "✅ Le prêt a été enregistré avec succès !");
-        } else if (isSanctioned) {
+        }else if (isSanctioned) {
             model.addAttribute("message", "❌ L'adhérent est sanctionné à cette date.");
         } else if (nbPretsActifs >= nbMaxPrets) {
             model.addAttribute("message", "❌ L'adhérent a déjà atteint la limite de prêts (" + nbMaxPrets + ").");
@@ -137,4 +152,5 @@ public class PretController {
 
 
 
+    
 }
