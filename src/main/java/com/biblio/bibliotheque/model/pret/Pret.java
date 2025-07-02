@@ -78,20 +78,5 @@ public class Pret {
         this.type = type;
     }
 
-    public Integer getNb_prolongements() {
-        return nb_prolongements;
-    }
-
-    public void setNb_prolongements(Integer nb_prolongements) {
-        this.nb_prolongements = nb_prolongements;
-    }
-
-    public LocalDateTime getDate_prolongement() {
-        return date_prolongement;
-    }
-
-    public void setDate_prolongement(LocalDateTime date_prolongement) {
-        this.date_prolongement = date_prolongement;
-    }
 
 }
