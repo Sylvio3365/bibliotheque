@@ -3,13 +3,14 @@ package com.biblio.bibliotheque.model.livre;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "Restriction")
 public class Restriction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idRestriction;
 
-    @Column(nullable = false)
+    @Column(name = "age_min", nullable = false)
     private Integer ageMin;
 
     public Integer getIdRestriction() {

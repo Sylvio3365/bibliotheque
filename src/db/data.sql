@@ -6,7 +6,7 @@ INSERT INTO Restriction (age_min) VALUES
     (12);
 
 INSERT INTO Livre (titre, auteur, id_restriction) VALUES
-    ('Le Petit Prince', 'Antoine de Saint-Exupéry', 1), 
+    ('Le Petit Prince', 'Antoine de Saint-Exupéry', null), 
     ('1984', 'George Orwell', 2),                      
     ('Les Misérables', 'Victor Hugo', 3);              
 
@@ -93,16 +93,7 @@ VALUES
     ('Andria', 'Paul', '1975-12-30', NULL, 3);
 
 
-INSERT INTO Statut_Adherent (
-    id_adherent,
-    nom,
-    date_debut,
-    date_fin
-)
-VALUES
-    (1, 'Actif', '2024-01-01', '2025-01-01'),
-    (2, 'Actif', '2024-01-01', '2024-12-31'),
-    (3, 'Inactif', '2024-01-01', '2025-06-30');
+
 
 INSERT INTO Statut_Adherent (id_adherent, nom, date_debut, date_fin) VALUES
 (1, 'Actif', '2024-01-01', '2024-06-30'),
@@ -181,4 +172,20 @@ VALUES
     (NOW (), 8, 2), -- EX-0008 - en pret
     (NOW (), 9, 2);
 
--- EX-0009 - en pret
+INSERT INTO Sanction (date_debut, date_fin, id_adherent) VALUES
+('2024-01-01', '2024-01-15', 1),
+('2024-02-01', '2024-02-10', 1),
+('2024-03-05', '2024-03-20', 1),
+('2024-01-10', '2024-01-25', 2),
+('2024-04-01', '2024-04-15', 2),
+('2024-05-10', '2024-05-30', 2),
+('2024-02-20', '2024-03-05', 3),
+('2024-06-01', '2024-06-15', 3),
+('2024-07-10', '2024-07-25', 3),
+('2024-08-01', '2024-08-31', 3);
+
+
+SELECT COUNT(*) > 0 AS is_sanctioned
+FROM Sanction
+WHERE id_adherent = 1
+  AND '2024-01-16' BETWEEN date_debut AND date_fin;

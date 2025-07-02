@@ -10,13 +10,23 @@
     <h1>Informations du prêt reçu</h1>
 
     <p th:text="'Date de début : ' + ${dateDebut}"></p>
+    <p th:text="'Date de fin prévue : ' + ${dateFin}"></p> <!-- ✅ Ligne ajoutée -->
+
     <p th:text="'ID de l’adhérent : ' + ${idAdherent}"></p>
+    <p th:text="'ID du livre : ' + ${idLivre}"></p>
+    <p th:text="'Âge de l’adhérent : ' + ${ageAdherent} + ' ans'"></p>
+    <p th:text="'Âge restriction : ' + (${ageRestriction} != null ? ${ageRestriction} + ' ans' : 'Non défini')"></p>
 
     <p th:text="${message}"></p>
 
     <p>
         Statut adhérent : 
         <span th:text="${statut == 'actif' ? 'Actif ✅' : 'Inactif ❌'}"></span>
+    </p>
+
+    <p>
+        Sanction : 
+        <span th:text="${isSanctioned ? 'Sanctionné 🚫' : 'Non sanctionné ✅'}"></span>
     </p>
 
     <a th:href="@{/preter/formpreter/livre}">Retour au formulaire</a>

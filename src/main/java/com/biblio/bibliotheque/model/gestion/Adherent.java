@@ -32,7 +32,6 @@ public class Adherent {
     public Integer getIdAdherent() {
         return idAdherent;
     }
-
     public void setIdAdherent(Integer idAdherent) {
         this.idAdherent = idAdherent;
     }

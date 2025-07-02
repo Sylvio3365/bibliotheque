@@ -6,11 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StatutRepository extends JpaRepository<Statut, Integer> {
-    /*
-    // Recherche un statut par nom
-    Statut findByNom(String nom);
-
-    // Vérifie si un statut existe par nom
-    boolean existsByNom(String nom);
-    */
+    // Aucun ajout de méthode personnalisée pour l’instant
 }

@@ -31,8 +31,15 @@ public class PretService {
         pretRepository.deleteById(id);
     }
     public int countPretsActifsParAdherentALaDate(Integer idAdherent, LocalDate date) {
-    return pretRepository.countPretsActifsParAdherentALaDate(idAdherent, date);
-}
+        return pretRepository.countPretsActifsParAdherentALaDate(idAdherent, date);
+    }
+
+    public LocalDate ajusterDateFin(LocalDate dateDebut, int nbJours) {
+        if (dateDebut == null || nbJours < 0) {
+            throw new IllegalArgumentException("Date de début ou nombre de jours invalide");
+        }
+        return dateDebut.plusDays(nbJours);
+    }
 
 
 }

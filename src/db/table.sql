@@ -1,6 +1,6 @@
-DROP DATABASE if exists bibliotheque;
-CREATE DATABASE bibliotheque;
-\c bibliotheque;
+DROP DATABASE if exists pg2;
+CREATE DATABASE pg2;
+\c pg2;
 
 
 CREATE TABLE Restriction (
@@ -8,15 +8,13 @@ CREATE TABLE Restriction (
     age_min INT NOT NULL
 );
 
-
 CREATE TABLE Livre (
     id_livre SERIAL PRIMARY KEY,
     titre VARCHAR(50) NOT NULL,
     auteur VARCHAR(50),
-    id_restriction INT UNIQUE,
+    id_restriction INT,
     FOREIGN KEY (id_restriction) REFERENCES Restriction(id_restriction)
 );
-
 
 
 CREATE TABLE
@@ -179,7 +177,8 @@ CREATE TABLE
 CREATE TABLE
     Sanction (
         id_sanction SERIAL,
-        date_sanction TIMESTAMP NOT NULL,
+        date_debut TIMESTAMP NOT NULL,
+        date_fin TIMESTAMP NOT NULL,
         id_adherent INT NOT NULL,
         PRIMARY KEY (id_sanction),
         FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent)
