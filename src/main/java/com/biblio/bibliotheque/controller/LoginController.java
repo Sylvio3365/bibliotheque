@@ -1,4 +1,4 @@
-package com.biblio.bibliotheque.controller.gestion;
+package com.biblio.bibliotheque.controller;
 
 import com.biblio.bibliotheque.service.gestion.UtilisateurService;
 

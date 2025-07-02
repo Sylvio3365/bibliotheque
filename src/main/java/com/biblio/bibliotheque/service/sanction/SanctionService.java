@@ -61,7 +61,7 @@ public class SanctionService {
         Adherent a = adherentRepository.findById(num_adherent).orElseThrow(() -> new Exception("l'adhérent est introuvable malgré la vérification."));
         
         int id_profil = a.getProfil().getId_profil();
-        PenaliteProfil penaliteProfil  = penaliteProfilRepository.findById(id_profil).orElse(null);
+        PenaliteProfil penaliteProfil  = penaliteProfilRepository.findTopByProfilIdOrderByDateModifDesc(id_profil).orElse(null);
         Penalite penalite = penaliteRepository.findById(penaliteProfil.getId_penalite_profil()).orElse(null);
         int nb_jour = penalite.getNb_jour_de_penalite();
 
