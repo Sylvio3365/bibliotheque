@@ -103,7 +103,7 @@ public class PretController {
             model.addAttribute("dateFin", dateFin);
         }
         LocalDateTime dateDebutPret = pret.getDate_debut().atStartOfDay();
-LocalDateTime dateFinPret = pret.getDate_fin().atStartOfDay();
+        LocalDateTime dateFinPret = pret.getDate_fin().atStartOfDay();
 
 int nbReservations = reservationRepository.countReservationsConflict(
     idExemplaire,
