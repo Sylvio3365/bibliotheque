@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des prêts</title>
+</head>
+<body>
+    <h1>Liste des prêts</h1>
+    
+    <div th:if="${error != null}" class="alert alert-danger">
+        <span th:text="${error}"></span>
+    </div>
+    
+    <div th:if="${prets != null and !prets.empty}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID Prêt</th>
+                    <th>Livre</th>
+                    <th>Adhérent</th>
+                    <th>Date début</th>
+                    <th>Date fin</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pret : ${prets}">
+                    <td th:text="${pret.id_pret}"></td>
+                    <td th:text="${pret.exemplaire?.livre?.titre}"></td>
+                    <td th:text="${pret.adherent?.nom + ' ' + pret.adherent?.prenom}"></td>
+                    <!-- Utilisez les noms exacts des propriétés -->
+                    <td th:text="${pret.date_debut != null} ? ${#temporals.format(pret.date_debut, 'dd/MM/yyyy HH:mm')} : ''"></td>
+                    <td th:text="${pret.date_fin != null} ? ${#temporals.format(pret.date_fin, 'dd/MM/yyyy HH:mm')} : ''"></td>
+                    <td th:text="${pret.type?.nom}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div th:if="${prets == null or prets.empty}">
+        <p>Aucun prêt trouvé</p>
+    </div>
+    
+    <a href="/pret/add">Ajouter un prêt</a> |
+    <a href="/hello">Retour à l'accueil</a>
+</body>
+</html>
