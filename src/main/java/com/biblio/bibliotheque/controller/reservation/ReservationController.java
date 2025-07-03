@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -45,7 +45,9 @@ public class ReservationController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute Reservation reservation) {
-        reservation.setDate_reservation(LocalDateTime.now());
+        reservation.setDate_reservation(LocalDate.now());
+        reservation.setDate_debut_reservation(LocalDate.now());
+        reservation.setDate_fin_reservation(LocalDate.now().plusDays(7)); // Exemple: réservation pour 7 jours
         reservationRepository.save(reservation);
         return "redirect:/reservation";
     }

@@ -207,6 +207,7 @@ CREATE TABLE
         UNIQUE (id_pret),
         FOREIGN KEY (id_pret) REFERENCES Pret (id_pret)
     );
+DROP TABLE IF EXISTS Prolongement;
 CREATE TABLE Prolongement (
     id_prolongement SERIAL,
     nouveau_date_fin_pret TIMESTAMP NOT NULL,
@@ -216,6 +217,7 @@ CREATE TABLE Prolongement (
     FOREIGN KEY (id_pret) REFERENCES Pret (id_pret)
 );
 
+DROP TABLE IF EXISTS StatusProlongement;
 CREATE TABLE StatusProlongement (
     id_status SERIAL PRIMARY KEY,
     id_prolongement INT,

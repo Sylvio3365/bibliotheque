@@ -40,7 +40,12 @@ public class ProlongementController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/pret/liste";
+        return "redirect:/preter/liste";
     }
 
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("error", ex.getMessage());
+        return "redirect:/preter/liste";
+    }
 }

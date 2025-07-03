@@ -1,7 +1,7 @@
 package com.biblio.bibliotheque.model.reservation;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.gestion.Adherent;
@@ -15,13 +15,13 @@ public class Reservation {
     private Integer id_reservation;
 
     @Column(nullable = false)
-    private LocalDateTime date_reservation;
+    private LocalDate date_reservation;
 
     @Column(nullable = false)
-    private LocalDateTime date_debut_reservation;
+    private LocalDate date_debut_reservation;
 
     @Column(nullable = false)
-    private LocalDateTime date_fin_reservation;
+    private LocalDate date_fin_reservation;
 
     @ManyToOne
     @JoinColumn(name = "id_exemplaire", nullable = false)
@@ -40,27 +40,27 @@ public class Reservation {
         this.id_reservation = id_reservation;
     }
 
-    public LocalDateTime getDate_reservation() {
+    public LocalDate getDate_reservation() {
         return date_reservation;
     }
 
-    public void setDate_reservation(LocalDateTime date_reservation) {
+    public void setDate_reservation(LocalDate date_reservation) {
         this.date_reservation = date_reservation;
     }
 
-    public LocalDateTime getDate_debut_reservation() {
+    public LocalDate getDate_debut_reservation() {
         return date_debut_reservation;
     }
 
-    public void setDate_debut_reservation(LocalDateTime date_debut_reservation) {
+    public void setDate_debut_reservation(LocalDate date_debut_reservation) {
         this.date_debut_reservation = date_debut_reservation;
     }
 
-    public LocalDateTime getDate_fin_reservation() {
+    public LocalDate getDate_fin_reservation() {
         return date_fin_reservation;
     }
 
-    public void setDate_fin_reservation(LocalDateTime date_fin_reservation) {
+    public void setDate_fin_reservation(LocalDate date_fin_reservation) {
         this.date_fin_reservation = date_fin_reservation;
     }
 

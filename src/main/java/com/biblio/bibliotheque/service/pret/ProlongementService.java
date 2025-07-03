@@ -58,7 +58,14 @@ public class ProlongementService {
         }
 
         // Vérifier le nombre maximal de prolongements autorisés
-        int nbProlongementMax = pret.getAdherent().getProfil().getRegle().getNb_prolengement_pret_max();
+        int nbProlongementMax = 0;
+        int nbJoursProlongementMax = 0;
+
+        if (pret.getAdherent() != null && pret.getAdherent().getProfil() != null && pret.getAdherent().getProfil().getRegle() != null) {
+            nbProlongementMax = pret.getAdherent().getProfil().getRegle().getNb_prolengement_pret_max();
+            nbJoursProlongementMax = pret.getAdherent().getProfil().getRegle().getNb_jour_prolongement_max();
+        }
+
         long currentProlongations = statusProlongementRepository.countByPretAndStatus(pret, 1); // Compter les prolongations acceptées
 
         if (currentProlongations >= nbProlongementMax) {
@@ -70,7 +77,6 @@ public class ProlongementService {
             throw new Exception("La nouvelle date de fin doit être après la date de fin actuelle.");
         }
 
-        int nbJoursProlongementMax = pret.getAdherent().getProfil().getRegle().getNb_jour_prolongement_max();
         if (joursProlongation > nbJoursProlongementMax) {
             throw new Exception("La durée de prolongation ne peut pas dépasser " + nbJoursProlongementMax + " jours.");
         }
