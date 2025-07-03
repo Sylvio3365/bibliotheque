@@ -1,5 +1,7 @@
 package com.biblio.bibliotheque.controller.pret;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import com.biblio.bibliotheque.repository.pret.PretRepository;
 import com.biblio.bibliotheque.repository.pret.RenduRepository;
 import com.biblio.bibliotheque.service.gestion.AdherentService;
 import com.biblio.bibliotheque.service.pret.PretService;
+import com.biblio.bibliotheque.service.gestion.JourFerieService;
+import com.biblio.bibliotheque.service.gestion.RegleJourFerieService;
 
 @Controller
 @RequestMapping("/rendu")
@@ -33,6 +37,12 @@ public class RenduController {
 
     @Autowired
     private PretService pretService;
+
+    @Autowired
+    private JourFerieService jourFerieService;
+
+    @Autowired
+    private RegleJourFerieService regleJourFerieService;
 
     @GetMapping
     public String listRendus(Model model) {
@@ -84,10 +94,9 @@ public class RenduController {
 
     @GetMapping("/valider")
     public String traiterFormulaire(
-        @RequestParam("idAdherent") Integer idAdherent,
-        @RequestParam("idPret") Integer idPret,
-        Model model
-    ) {
+            @RequestParam("idAdherent") Integer idAdherent,
+            @RequestParam("idPret") Integer idPret,
+            Model model) {
         try {
             boolean existAdherent = adherentService.isExistAdherent(idAdherent);
             boolean existPret = pretService.existById(idPret);
@@ -104,11 +113,33 @@ public class RenduController {
                     model.addAttribute("message", "Erreur : ce prêt n'appartient pas à cet adhérent.");
                     model.addAttribute("messageType", "error");
                 } else {
-                    model.addAttribute("message", " Prêt valide pour cet adhérent");
-                    model.addAttribute("messageType", "success");
+                    LocalDate dateFinPret = pretService.getDateFinPret(idPret);
+                    LocalDate dateRendu = LocalDate.now();
+                    int comportement = regleJourFerieService.getLastComportement();
+
+                    // Calcul date limite ajustée avec isWeekend et isJourFerie
+                    LocalDate dateLimite = dateFinPret;
+
+                    // Fonction fictive à adapter selon ta classe/utilitaire
+                    while (jourFerieService.isWeekend(dateLimite) || jourFerieService.isJourFerie(dateLimite)) {
+                        if (comportement == 1) {
+                            dateLimite = dateLimite.plusDays(1); // Avance jusqu'au jour ouvrable
+                        } else {
+                            dateLimite = dateLimite.minusDays(1); // Recule jusqu'au jour ouvrable
+                        }
+                    }
+
+                    boolean enRetard = dateRendu.isAfter(dateLimite);
+
+                    if (enRetard) {
+                        model.addAttribute("message", "📛 Rendu en retard ! Une sanction peut s'appliquer.");
+                        model.addAttribute("messageType", "error");
+                    } else {
+                        model.addAttribute("message", "✅ Rendu dans les délais. Aucun problème !");
+                        model.addAttribute("messageType", "success");
+                    }
                 }
             }
-
         } catch (Exception e) {
             model.addAttribute("message", "Erreur inattendue lors de la vérification.");
             model.addAttribute("messageType", "error");

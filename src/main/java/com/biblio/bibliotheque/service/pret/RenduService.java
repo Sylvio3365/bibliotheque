@@ -34,4 +34,5 @@ public class RenduService {
     public boolean isExistPret(Integer idAdherent) {
         return renduRepository.existsById(idAdherent);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.biblio.bibliotheque.service.pret;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,4 +39,9 @@ public class PretService {
     public boolean isPretPourAdherent(Integer idPret, Integer idAdherent) {
         return pretRepository.pretAppartientAdherent(idPret, idAdherent);
     }
+
+    public LocalDate getDateFinPret(Integer idPret) {
+    return pretRepository.getDateFinById(idPret);
+    }
+
 }

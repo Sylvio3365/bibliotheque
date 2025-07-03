@@ -1,14 +1,15 @@
 package com.biblio.bibliotheque.service.gestion;
 
-import com.biblio.bibliotheque.model.gestion.JourFerie;
-import com.biblio.bibliotheque.repository.gestion.JourFerieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.biblio.bibliotheque.model.gestion.JourFerie;
+import com.biblio.bibliotheque.repository.gestion.JourFerieRepository;
 
 @Service
 public class JourFerieService {
@@ -46,14 +47,11 @@ public class JourFerieService {
         return jourFerieRepository.getDatesJourFerie();
     }
 
-    // Exemples méthodes personnalisées
-    /*
-    public boolean existsByDateJf(LocalDate date) {
-        return jourFerieRepository.existsByDateJf(date);
+    public boolean isJourFerie(LocalDate date) {
+        List<LocalDate> joursFeries = getDatesJourFerie();
+        return joursFeries.contains(date);
     }
 
-    public Optional<JourFerie> findByDateJf(LocalDate date) {
-        return jourFerieRepository.findByDateJf(date);
-    }
-    */
+    
+    
 }

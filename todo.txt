@@ -75,4 +75,7 @@ INPUT : id_pret , num_Adh
     
 
  -Verifier date de retour si correcte?
+
+ getDateFinById(id_pret)
+ 
     

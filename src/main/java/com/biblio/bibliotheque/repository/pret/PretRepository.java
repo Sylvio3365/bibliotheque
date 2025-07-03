@@ -1,5 +1,7 @@
 package com.biblio.bibliotheque.repository.pret;
 
+import java.time.LocalDate;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,5 +14,8 @@ public interface PretRepository extends JpaRepository<Pret, Integer> {
 
     @Query("SELECT COUNT(p) > 0 FROM Pret p WHERE p.id_pret = :idPret AND p.adherent.id_adherent = :idAdherent")
     boolean pretAppartientAdherent(@Param("idPret") Integer idPret, @Param("idAdherent") Integer idAdherent);
+
+    @Query("SELECT p.date_fin FROM Pret p WHERE p.id_pret = :idPret")
+    LocalDate getDateFinById(@Param("idPret") Integer idPret);
 
 }
