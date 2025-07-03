@@ -1,0 +1,41 @@
+Voici la premiere partie
+Titre : Prêter un livre (exemplaire)
+Utilisateur :  bibliothèque
+input : num adhérent, num exemplaire 
+scénario normale : exemplaire prêter par l’adhérent
+règle de gestion :
+- adhérent doit être actif
+- adhérent existe ?
+- exemplaire existe ?
+- exemplaire disponible ?
+- l’adhérent est-il sanctionné ?
+- cota ? (qui peut emprunter quoi ?)
+scénario alternative :
+- mssg d’erreur
+résultat : 
+- adhérent inactif → error
+- adhérent inexistant → error
+- exemplaire inexistant → error
+- adhérent est sanc
+
+
+voici la deuxieme partie:
+titre : Prolonger un prêt
+Utilisateur :  bibliothèque
+input : id-prêt
+scénario normale : le prêt est prolongé
+règle de gestion :
+- prêt existe ?
+- livre pas réservé ?
+scénario alternative :
+- l’exemplaire est déjà réservé par un autre adhérent
+- le prêt n’existe pas
+résultat : 
+- prêt inexistant → error
+- un adhérent à réserver l’exemplaire → error
+Donc pour cette partie nous avons deux pages celle de l'hadherant et celle du bibliothecaire normalement ont est directement rediriger vers la page concerner
+la partie adherant quand on fait une demande on a la liste de nos pret et un bouton prolonger et une input date
+la partie bibliothecaire on valide ou refuse la demande
+
+
+
