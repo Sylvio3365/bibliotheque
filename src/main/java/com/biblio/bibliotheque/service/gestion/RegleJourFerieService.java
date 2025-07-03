@@ -1,12 +1,13 @@
 package com.biblio.bibliotheque.service.gestion;
 
-import com.biblio.bibliotheque.model.gestion.RegleJourFerie;
-import com.biblio.bibliotheque.repository.gestion.RegleJourFerieRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.biblio.bibliotheque.model.gestion.RegleJourFerie;
+import com.biblio.bibliotheque.repository.gestion.RegleJourFerieRepository;
 
 @Service
 public class RegleJourFerieService {
@@ -30,5 +31,8 @@ public class RegleJourFerieService {
         regleJourFerieRepository.deleteById(id);
     }
 
-    // Ajoute ici des méthodes personnalisées si besoin
+    public int getLastComportement() {
+        return regleJourFerieRepository.getLastComportement();
+    }
+    
 }

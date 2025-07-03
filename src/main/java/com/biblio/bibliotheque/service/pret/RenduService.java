@@ -1,12 +1,13 @@
 package com.biblio.bibliotheque.service.pret;
 
-import com.biblio.bibliotheque.model.pret.Rendu;
-import com.biblio.bibliotheque.repository.pret.RenduRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.biblio.bibliotheque.model.pret.Rendu;
+import com.biblio.bibliotheque.repository.pret.RenduRepository;
 
 @Service
 public class RenduService {
@@ -22,11 +23,16 @@ public class RenduService {
         return renduRepository.findById(id);
     }
 
-    public Rendu saveRendu(Rendu rendu) {
-        return renduRepository.save(rendu);
-    }
+    public void saveRendu(Rendu rendu) {
+        renduRepository.save(rendu);
+    }    
 
     public void deleteRendu(Integer id) {
         renduRepository.deleteById(id);
     }
+
+    public boolean isExistPret(Integer idAdherent) {
+        return renduRepository.existsById(idAdherent);
+    }
+
 }

@@ -11,6 +11,12 @@ import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.biblio.bibliotheque.model.gestion.Adherent;
+import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
+
 @Service
 public class AdherentService {
 
@@ -48,5 +54,9 @@ public class AdherentService {
             return Period.between(naissance, date).getYears();
         }
         return -1; // ou lève une exception
+    }
+}
+    public boolean isExistAdherent(Integer idAdherent) {
+        return adherentRepository.existsById(idAdherent);
     }
 }

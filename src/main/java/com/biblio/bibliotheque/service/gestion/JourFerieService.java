@@ -1,12 +1,15 @@
 package com.biblio.bibliotheque.service.gestion;
 
-import com.biblio.bibliotheque.model.gestion.JourFerie;
-import com.biblio.bibliotheque.repository.gestion.JourFerieRepository;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.biblio.bibliotheque.model.gestion.JourFerie;
+import com.biblio.bibliotheque.repository.gestion.JourFerieRepository;
 
 @Service
 public class JourFerieService {
@@ -30,14 +33,25 @@ public class JourFerieService {
         jourFerieRepository.deleteById(id);
     }
 
-    // Exemples méthodes personnalisées
-    /*
-    public boolean existsByDateJf(LocalDate date) {
-        return jourFerieRepository.existsByDateJf(date);
+
+    public boolean isWeekend(LocalDate date) {
+        DayOfWeek day = date.getDayOfWeek();
+        return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY;
     }
 
-    public Optional<JourFerie> findByDateJf(LocalDate date) {
-        return jourFerieRepository.findByDateJf(date);
+    public List<JourFerie> getAllJourFerie() {
+        return jourFerieRepository.findAll();
     }
-    */
+
+    public List<LocalDate> getDatesJourFerie() {
+        return jourFerieRepository.getDatesJourFerie();
+    }
+
+    public boolean isJourFerie(LocalDate date) {
+        List<LocalDate> joursFeries = getDatesJourFerie();
+        return joursFeries.contains(date);
+    }
+
+    
+    
 }
