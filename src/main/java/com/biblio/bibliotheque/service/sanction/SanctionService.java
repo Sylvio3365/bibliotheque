@@ -67,8 +67,7 @@ public class SanctionService {
         sanction.setAdherent(adherent);
         sanction.setDate_debut(dateDebut.atStartOfDay());
         sanction.setDate_fin(dateFin.atTime(23, 59, 59));
-        // Note: 'motif' is not a field in Sanction model, so we can't set it directly.
-        // If you want to store the reason, you need to add a 'motif' field to the Sanction entity.
+        sanction.setDate_sanction(LocalDateTime.now());
 
         sanctionRepository.save(sanction);
     }

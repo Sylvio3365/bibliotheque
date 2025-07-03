@@ -17,6 +17,9 @@ public class Sanction {
     @Column(nullable = false)
     private LocalDateTime date_fin;
 
+    @Column(nullable = false)
+    private LocalDateTime date_sanction;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_adherent", nullable = false)
     private Adherent adherent;
@@ -43,6 +46,14 @@ public class Sanction {
 
     public void setDate_fin(LocalDateTime date_fin) {
         this.date_fin = date_fin;
+    }
+
+    public LocalDateTime getDate_sanction() {
+        return date_sanction;
+    }
+
+    public void setDate_sanction(LocalDateTime date_sanction) {
+        this.date_sanction = date_sanction;
     }
 
     
