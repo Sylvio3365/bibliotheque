@@ -8,7 +8,7 @@ public class Adherent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_adherent;
+    private Integer idAdherent;
 
     @Column(nullable = false, length = 50)
     private String nom;
@@ -17,7 +17,7 @@ public class Adherent {
     private String prenom;
 
     @Column(nullable = false)
-    private LocalDate date_de_naissance;
+    private LocalDate dateDeNaissance;
 
     @OneToOne
     @JoinColumn(name = "id_utilisateur", unique = true)
@@ -28,12 +28,12 @@ public class Adherent {
     private Profil profil;
 
     // Getters and Setters
-    public Integer getId_adherent() {
-        return id_adherent;
-    }
 
-    public void setId_adherent(Integer id_adherent) {
-        this.id_adherent = id_adherent;
+    public Integer getIdAdherent() {
+        return idAdherent;
+    }
+    public void setIdAdherent(Integer idAdherent) {
+        this.idAdherent = idAdherent;
     }
 
     public String getNom() {
@@ -52,12 +52,12 @@ public class Adherent {
         this.prenom = prenom;
     }
 
-    public LocalDate getDate_de_naissance() {
-        return date_de_naissance;
+    public LocalDate getDateDeNaissance() {
+        return dateDeNaissance;
     }
 
-    public void setDate_de_naissance(LocalDate date_de_naissance) {
-        this.date_de_naissance = date_de_naissance;
+    public void setDateDeNaissance(LocalDate dateDeNaissance) {
+        this.dateDeNaissance = dateDeNaissance;
     }
 
     public Utilisateur getUtilisateur() {
@@ -76,4 +76,3 @@ public class Adherent {
         this.profil = profil;
     }
 }
-

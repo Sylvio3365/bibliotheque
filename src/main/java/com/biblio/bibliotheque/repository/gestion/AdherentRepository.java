@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface AdherentRepository extends JpaRepository<Adherent, Integer> {
 
     Optional<Adherent> findByUtilisateur(Utilisateur utilisateur);
+ 
 }

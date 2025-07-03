@@ -2,12 +2,14 @@ package com.biblio.bibliotheque.model.livre;
 
 import jakarta.persistence.*;
 
+
 @Entity
+@Table(name = "Livre")
 public class Livre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_livre;
+    private Integer idLivre;
 
     @Column(nullable = false, length = 50)
     private String titre;
@@ -15,13 +17,16 @@ public class Livre {
     @Column(length = 50)
     private String auteur;
 
-    // Getters and Setters
-    public Integer getId_livre() {
-        return id_livre;
+    @OneToOne
+    @JoinColumn(name = "id_restriction", nullable = true)
+    private Restriction restriction;
+
+    public Integer getIdLivre() {
+        return idLivre;
     }
 
-    public void setId_livre(Integer id_livre) {
-        this.id_livre = id_livre;
+    public void setIdLivre(Integer idLivre) {
+        this.idLivre = idLivre;
     }
 
     public String getTitre() {
@@ -38,5 +43,13 @@ public class Livre {
 
     public void setAuteur(String auteur) {
         this.auteur = auteur;
+    }
+
+    public Restriction getRestriction() {
+        return restriction;
+    }
+
+    public void setRestriction(Restriction restriction) {
+        this.restriction = restriction;
     }
 }

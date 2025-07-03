@@ -1,6 +1,8 @@
 package com.biblio.bibliotheque.service.livre;
 
+import com.biblio.bibliotheque.model.livre.EtatExemplaire;
 import com.biblio.bibliotheque.model.livre.Exemplaire;
+import com.biblio.bibliotheque.repository.livre.EtatExemplaireRepository;
 import com.biblio.bibliotheque.repository.livre.ExemplaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,20 @@ public class ExemplaireService {
     @Autowired
     public ExemplaireService(ExemplaireRepository exemplaireRepository) {
         this.exemplaireRepository = exemplaireRepository;
+    }
+    @Autowired
+    private EtatExemplaireRepository etatExemplaireRepository;
+
+    public boolean isExemplaireDisponible(Integer idExemplaire) {
+    EtatExemplaire latestEtat = etatExemplaireRepository.findLatestEtatForExemplaire(idExemplaire);
+
+    if (latestEtat == null || latestEtat.getEtat() == null) {
+        return false; 
+    }
+
+    String nomEtat = latestEtat.getEtat().getNom().toLowerCase();
+
+    return nomEtat.equals("disponible");
     }
 
     // Récupérer tous les exemplaires
@@ -37,6 +53,9 @@ public class ExemplaireService {
     public void deleteExemplaire(Integer id) {
         exemplaireRepository.deleteById(id);
     }
+
+    
+
 
     // (Optionnel) Rechercher un exemplaire par code
     // public Exemplaire getExemplaireByCode(String code) {

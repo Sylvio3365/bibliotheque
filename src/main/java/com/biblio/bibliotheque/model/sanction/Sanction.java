@@ -2,9 +2,7 @@ package com.biblio.bibliotheque.model.sanction;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
 import com.biblio.bibliotheque.model.gestion.Adherent;
-
 
 @Entity
 public class Sanction {
@@ -19,17 +17,10 @@ public class Sanction {
     @Column(nullable = false)
     private LocalDateTime date_fin;
 
-    @Column(nullable = false)
-    private LocalDateTime date_sanction;
-
-    @Column(length = 50)
-    private String motif;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_adherent", nullable = false)
     private Adherent adherent;
 
-    // Getters and Setters
     public Integer getId_sanction() {
         return id_sanction;
     }
@@ -52,22 +43,6 @@ public class Sanction {
 
     public void setDate_fin(LocalDateTime date_fin) {
         this.date_fin = date_fin;
-    }
-
-    public LocalDateTime getDate_sanction() {
-        return date_sanction;
-    }
-
-    public void setDate_sanction(LocalDateTime date_sanction) {
-        this.date_sanction = date_sanction;
-    }
-
-    public String getMotif() {
-        return motif;
-    }
-
-    public void setMotif(String motif) {
-        this.motif = motif;
     }
 
     public Adherent getAdherent() {

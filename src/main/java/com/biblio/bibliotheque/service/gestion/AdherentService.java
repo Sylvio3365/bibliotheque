@@ -2,9 +2,12 @@ package com.biblio.bibliotheque.service.gestion;
 
 import com.biblio.bibliotheque.model.gestion.Adherent;
 import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
+import com.biblio.bibliotheque.repository.gestion.StatutAdherentRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +16,9 @@ public class AdherentService {
 
     @Autowired
     private AdherentRepository adherentRepository;
+
+    @Autowired
+    private StatutAdherentRepository statutAdherentRepository;
 
     public List<Adherent> getAll() {
         return adherentRepository.findAll();
@@ -30,14 +36,17 @@ public class AdherentService {
         adherentRepository.deleteById(id);
     }
 
-    // Exemples méthodes personnalisées
-    /*
-    public Adherent findByNomAndPrenom(String nom, String prenom) {
-        return adherentRepository.findByNomAndPrenom(nom, prenom);
+    public String getStatutAdherentOnDate(Integer idAdherent, LocalDate date) {
+        boolean actif = statutAdherentRepository.findStatutActifByAdherentIdAndDate(idAdherent, date).isPresent();
+        return actif ? "actif" : "inactif";
     }
 
-    public Adherent findByUtilisateurId(Integer idUtilisateur) {
-        return adherentRepository.findByUtilisateurId(idUtilisateur);
+    public int getAgeAtDate(Integer idAdherent, LocalDate date) {
+        Optional<Adherent> optional = adherentRepository.findById(idAdherent);
+        if (optional.isPresent()) {
+            LocalDate naissance = optional.get().getDateDeNaissance();
+            return Period.between(naissance, date).getYears();
+        }
+        return -1; // ou lève une exception
     }
-    */
 }
