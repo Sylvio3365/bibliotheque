@@ -1,6 +1,5 @@
 package com.biblio.bibliotheque.controller.pret;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,13 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.biblio.bibliotheque.model.pret.Pret;
 import com.biblio.bibliotheque.model.pret.Rendu;
 import com.biblio.bibliotheque.repository.pret.PretRepository;
 import com.biblio.bibliotheque.repository.pret.RenduRepository;
 import com.biblio.bibliotheque.service.gestion.AdherentService;
-import com.biblio.bibliotheque.service.pret.PretService;
 import com.biblio.bibliotheque.service.gestion.JourFerieService;
 import com.biblio.bibliotheque.service.gestion.RegleJourFerieService;
+import com.biblio.bibliotheque.service.pret.PretService;
+import com.biblio.bibliotheque.service.pret.RenduService;
 
 @Controller
 @RequestMapping("/rendu")
@@ -43,6 +44,9 @@ public class RenduController {
 
     @Autowired
     private RegleJourFerieService regleJourFerieService;
+
+    @Autowired
+    private RenduService renduService;
 
     @GetMapping
     public String listRendus(Model model) {
@@ -116,7 +120,10 @@ public class RenduController {
                     LocalDate dateFinPret = pretService.getDateFinPret(idPret);
                     LocalDate dateRendu = LocalDate.now();
                     int comportement = regleJourFerieService.getLastComportement();
-
+                    Pret p = pretService.getPretById(idPret);
+                    Rendu r = new Rendu(dateRendu,p);
+                    renduService.saveRendu(r);
+                    
                     // Calcul date limite ajustée avec isWeekend et isJourFerie
                     LocalDate dateLimite = dateFinPret;
 

@@ -2,7 +2,6 @@ package com.biblio.bibliotheque.service.pret;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,9 @@ public class PretService {
         return pretRepository.findAll();
     }
 
-    public Optional<Pret> getPretById(Integer id) {
-        return pretRepository.findById(id);
-    }
+    public Pret getPretById(Integer id) {
+        return pretRepository.findById(id).orElse(null);
+    }    
 
     public Pret savePret(Pret pret) {
         return pretRepository.save(pret);

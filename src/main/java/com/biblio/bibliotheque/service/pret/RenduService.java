@@ -23,9 +23,9 @@ public class RenduService {
         return renduRepository.findById(id);
     }
 
-    public Rendu saveRendu(Rendu rendu) {
-        return renduRepository.save(rendu);
-    }
+    public void saveRendu(Rendu rendu) {
+        renduRepository.save(rendu);
+    }    
 
     public void deleteRendu(Integer id) {
         renduRepository.deleteById(id);
