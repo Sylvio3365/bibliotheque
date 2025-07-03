@@ -18,7 +18,6 @@ public class Sanction {
     private LocalDateTime date_fin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ManyToOne
     @JoinColumn(name = "id_adherent", nullable = false)
     private Adherent adherent;
 

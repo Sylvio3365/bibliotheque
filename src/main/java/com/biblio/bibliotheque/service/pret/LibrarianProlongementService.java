@@ -51,7 +51,7 @@ public class LibrarianProlongementService {
 
         // Mettre à jour la date de fin du prêt original
         Pret pret = statusProlongement.getPret();
-        pret.setDate_fin(statusProlongement.getDateFinDemandee());
+        pret.setDate_fin(statusProlongement.getDateFinDemandee().toLocalDate());
         pretRepository.save(pret);
     }
 

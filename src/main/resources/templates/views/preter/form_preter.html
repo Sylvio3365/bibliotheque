@@ -12,7 +12,7 @@
 
         <div>
             <label for="exemplaire">Exemplaire :</label><br>
-            <select id="exemplaire" th:field="*{exemplaire}" required>
+            <select id="exemplaire" th:field="*{exemplaire.id_exemplaire}" required>
                 <option value="" disabled selected>-- Sélectionnez un exemplaire --</option>
                 <option th:each="exemplaire : ${exemplaires}" 
                         th:value="${exemplaire.id_exemplaire}" 
@@ -24,7 +24,7 @@
 
         <div>
             <label for="adherent">Adhérent :</label><br>
-            <select id="adherent" th:field="*{adherent}" required>
+            <select id="adherent" th:field="*{adherent.idAdherent}" required>
                 <option value="" disabled selected>-- Sélectionnez un adhérent --</option>
                 <option th:each="adherent : ${adherents}" 
                         th:value="${adherent.idAdherent}" 
@@ -32,17 +32,7 @@
             </select>
         </div>
 
-        <br>
-
-        <div>
-            <label for="type">Type :</label><br>
-            <select id="type" th:field="*{type}" required>
-                <option value="" disabled selected>-- Sélectionnez un type --</option>
-                <option th:each="type : ${types}" 
-                        th:value="${type.id_type}" 
-                        th:text="${type.nom}"></option>
-            </select>
-        </div>
+        
 
         <br>
 

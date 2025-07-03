@@ -1,3 +1,4 @@
+
 package com.biblio.bibliotheque.service.sanction;
 
 import com.biblio.bibliotheque.model.gestion.Adherent;
@@ -11,6 +12,7 @@ import com.biblio.bibliotheque.repository.gestion.AdherentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -50,9 +52,28 @@ public class SanctionService {
     public boolean isAdherentSanctioned(Integer idAdherent, LocalDateTime checkDate) {
         return sanctionRepository.isAdherentSanctioned(idAdherent, checkDate);
     }
-}
-    // Méthode personnalisée (à activer si ajoutée au repository)
-    public void SanctionnerAdherent(Integer num_adherent, LocalDateTime date_debut) throws Exception {
+
+    public void sanctionnerAdherent(Integer idAdherent, LocalDate dateDebut, LocalDate dateFin, String motif) throws Exception {
+        if (!adherentRepository.existsById(idAdherent)) {
+            throw new Exception("L'adhérent avec l'ID " + idAdherent + " n'existe pas.");
+        }
+        if (dateDebut.isAfter(dateFin)) {
+            throw new Exception("La date de début ne peut pas être après la date de fin.");
+        }
+
+        Adherent adherent = adherentRepository.findById(idAdherent).orElseThrow(() -> new Exception("Adhérent introuvable."));
+
+        Sanction sanction = new Sanction();
+        sanction.setAdherent(adherent);
+        sanction.setDate_debut(dateDebut.atStartOfDay());
+        sanction.setDate_fin(dateFin.atTime(23, 59, 59));
+        // Note: 'motif' is not a field in Sanction model, so we can't set it directly.
+        // If you want to store the reason, you need to add a 'motif' field to the Sanction entity.
+
+        sanctionRepository.save(sanction);
+    }
+
+    public void sanctionnerAdherentSelonProfil(Integer num_adherent, LocalDateTime date_debut) throws Exception {
 
         if (!adherentRepository.existsById(num_adherent)) {
             throw new Exception("l'adhérent avec l'ID " + num_adherent + " n'existe pas.");
@@ -62,7 +83,13 @@ public class SanctionService {
         
         int id_profil = a.getProfil().getId_profil();
         PenaliteProfil penaliteProfil  = penaliteProfilRepository.findTopByProfilIdOrderByDateModifDesc(id_profil).orElse(null);
-        Penalite penalite = penaliteRepository.findById(penaliteProfil.getId_penalite_profil()).orElse(null);
+        if (penaliteProfil == null) {
+            throw new Exception("Aucune pénalité de profil trouvée pour ce profil.");
+        }
+        Penalite penalite = penaliteRepository.findById(penaliteProfil.getPenalite().getId_penalite()).orElse(null);
+        if (penalite == null) {
+            throw new Exception("Aucune pénalité trouvée.");
+        }
         int nb_jour = penalite.getNb_jour_de_penalite();
 
         Sanction s = new Sanction();
@@ -78,3 +105,4 @@ public class SanctionService {
         }
     }
 }
+

@@ -48,47 +48,7 @@ public class RenduController {
     @Autowired
     private RenduService renduService;
 
-    @GetMapping
-    public String listRendus(Model model) {
-        List<Rendu> rendus = renduRepository.findAll();
-        model.addAttribute("rendus", rendus);
-        return "views/rendu/list";
-    }
-
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        model.addAttribute("rendu", new Rendu());
-        model.addAttribute("prets", pretRepository.findAll());
-        return "views/rendu/add";
-    }
-
-    @PostMapping("/add")
-    public String addRendu(@ModelAttribute Rendu rendu) {
-        renduRepository.save(rendu);
-        return "redirect:/rendu";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Integer id, Model model) {
-        Rendu rendu = renduRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid rendu ID: " + id));
-        model.addAttribute("rendu", rendu);
-        model.addAttribute("prets", pretRepository.findAll());
-        return "views/rendu/edit";
-    }
-
-    @PostMapping("/edit/{id}")
-    public String updateRendu(@PathVariable("id") Integer id, @ModelAttribute Rendu rendu) {
-        rendu.setId_rendu(id);
-        renduRepository.save(rendu);
-        return "redirect:/rendu";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteRendu(@PathVariable("id") Integer id) {
-        renduRepository.deleteById(id);
-        return "redirect:/rendu";
-    }
+    
 
     @GetMapping("/retour")
     public String PageRetour(Model model) {
@@ -102,50 +62,12 @@ public class RenduController {
             @RequestParam("idPret") Integer idPret,
             Model model) {
         try {
-            boolean existAdherent = adherentService.isExistAdherent(idAdherent);
-            boolean existPret = pretService.existById(idPret);
-
-            if (!existAdherent) {
-                model.addAttribute("message", "Erreur : l'adhérent avec l'ID " + idAdherent + " n'existe pas.");
-                model.addAttribute("messageType", "error");
-            } else if (!existPret) {
-                model.addAttribute("message", "Erreur : le prêt avec l'ID " + idPret + " n'existe pas.");
+            String message = renduService.validerRendu(idAdherent, idPret);
+            model.addAttribute("message", message);
+            if (message.startsWith("Erreur")) {
                 model.addAttribute("messageType", "error");
             } else {
-                boolean correspond = pretService.isPretPourAdherent(idPret, idAdherent);
-                if (!correspond) {
-                    model.addAttribute("message", "Erreur : ce prêt n'appartient pas à cet adhérent.");
-                    model.addAttribute("messageType", "error");
-                } else {
-                    LocalDate dateFinPret = pretService.getDateFinPret(idPret);
-                    LocalDate dateRendu = LocalDate.now();
-                    int comportement = regleJourFerieService.getLastComportement();
-                    Pret p = pretService.getPretById(idPret);
-                    Rendu r = new Rendu(dateRendu,p);
-                    renduService.saveRendu(r);
-                    
-                    // Calcul date limite ajustée avec isWeekend et isJourFerie
-                    LocalDate dateLimite = dateFinPret;
-
-                    // Fonction fictive à adapter selon ta classe/utilitaire
-                    while (jourFerieService.isWeekend(dateLimite) || jourFerieService.isJourFerie(dateLimite)) {
-                        if (comportement == 1) {
-                            dateLimite = dateLimite.plusDays(1); // Avance jusqu'au jour ouvrable
-                        } else {
-                            dateLimite = dateLimite.minusDays(1); // Recule jusqu'au jour ouvrable
-                        }
-                    }
-
-                    boolean enRetard = dateRendu.isAfter(dateLimite);
-
-                    if (enRetard) {
-                        model.addAttribute("message", "📛 Rendu en retard ! Une sanction peut s'appliquer.");
-                        model.addAttribute("messageType", "error");
-                    } else {
-                        model.addAttribute("message", "✅ Rendu dans les délais. Aucun problème !");
-                        model.addAttribute("messageType", "success");
-                    }
-                }
+                model.addAttribute("messageType", "success");
             }
         } catch (Exception e) {
             model.addAttribute("message", "Erreur inattendue lors de la vérification.");

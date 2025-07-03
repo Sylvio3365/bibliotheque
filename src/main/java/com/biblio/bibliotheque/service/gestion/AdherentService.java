@@ -55,7 +55,7 @@ public class AdherentService {
         }
         return -1; // ou lève une exception
     }
-}
+
     public boolean isExistAdherent(Integer idAdherent) {
         return adherentRepository.existsById(idAdherent);
     }

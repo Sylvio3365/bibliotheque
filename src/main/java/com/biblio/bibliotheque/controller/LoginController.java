@@ -35,9 +35,9 @@ public class LoginController {
             session.setAttribute("user", utilisateur);
             session.setAttribute("role", utilisateur.getRole().getNom());
             if ("bibliothequaire".equals(utilisateur.getRole().getNom())) {
-                return "redirect:/librarian/prolongement";
+                return "redirect:/librarian/home";
             } else {
-                return "redirect:/pret/liste";
+                return "redirect:/adherent/home";
             }
         }).orElseGet(() -> {
             model.addAttribute("error", "Nom d'utilisateur ou mot de passe incorrect");

@@ -72,6 +72,9 @@ public class PretController {
     @Autowired
     private RegleService regleService;
 
+    @Autowired
+    private AdherentRepository adherentRepository;
+
     @GetMapping("/formpreter/livre")
     public String showFormPreterLivre(Model model) {
         model.addAttribute("pret", new Pret());
@@ -159,7 +162,7 @@ public class PretController {
     @GetMapping("/delete/{id}")
     public String deletePret(@PathVariable("id") Integer id) {
         pretRepository.deleteById(id);
-        return "redirect:/pret";
+        return "redirect:/preter/liste";
     }
 
     @GetMapping("/liste")
@@ -195,5 +198,4 @@ public class PretController {
         return "error"; // Créez une page error.html pour afficher les messages d'erreur
     }
 
-}
 }
