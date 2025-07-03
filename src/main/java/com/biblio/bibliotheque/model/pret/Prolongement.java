@@ -23,7 +23,7 @@ public class Prolongement {
     @Column(name = "date_prolongement", nullable = false)
     private LocalDateTime dateProlongement;
 
-    @Column(name = "statut", nullable = false)
+    @Column(name = "statut")
     private Integer statut;
 
     @ManyToOne
