@@ -85,9 +85,9 @@ INSERT INTO
         id_profil
     )
 VALUES
-    ('Rakoto', 'Jean', '1990-05-15', 2, 1), -- user_adherent, profil etudiant
-    ('Rabe', 'Marie', '1985-09-20', NULL, 2), -- pas d'utilisateur, profil professeur
-    ('Andria', 'Paul', '1975-12-30', NULL, 3);
+    ('Rakoto', 'Jean', '1990-05-15', 5, 7), -- user_adherent, profil etudiant
+    ('Rabe', 'Marie', '1985-09-20', NULL, 8), -- pas d'utilisateur, profil professeur
+    ('Andria', 'Paul', '1975-12-30', NULL, 9);
 
 -- pas d'utilisateur, profil autre
 INSERT INTO
@@ -142,15 +142,15 @@ VALUES
 INSERT INTO
     Etat_Exemplaire (date_modif, id_exemplaire, id_etat)
 VALUES
-    (NOW (), 1, 1), -- EX-0001 - disponible
-    (NOW (), 2, 1), -- EX-0002 - disponible
-    (NOW (), 3, 1), -- EX-0003 - disponible
-    (NOW (), 4, 1), -- EX-0004 - disponible
-    (NOW (), 5, 1), -- EX-0005 - disponible
-    (NOW (), 6, 1), -- EX-0006 - disponible
-    (NOW (), 7, 2), -- EX-0007 - en pret
-    (NOW (), 8, 2), -- EX-0008 - en pret
-    (NOW (), 9, 2);
+    (NOW(), 1, 1), -- EX-0001 - disponible
+    (NOW(), 2, 1), -- EX-0002 - disponible
+    (NOW(), 3, 1), -- EX-0003 - disponible
+    (NOW(), 4, 1), -- EX-0004 - disponible
+    (NOW(), 5, 1), -- EX-0005 - disponible
+    (NOW(), 6, 1), -- EX-0006 - disponible
+    (NOW(), 7, 2), -- EX-0007 - en pret
+    (NOW(), 8, 2), -- EX-0008 - en pret
+    (NOW(), 9, 2);
 
 -- EX-0009 - en pret
 

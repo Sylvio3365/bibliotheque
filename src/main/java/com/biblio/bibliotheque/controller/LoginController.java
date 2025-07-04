@@ -24,8 +24,6 @@ public class LoginController {
         return "login/login"; 
     }
 
-
-
     @PostMapping("/login")
     public String login(@RequestParam String username,
             @RequestParam String mdp,
@@ -34,7 +32,7 @@ public class LoginController {
         return utilisateurService.login(username, mdp).map(utilisateur -> {
             session.setAttribute("user", utilisateur);
             session.setAttribute("role", utilisateur.getRole().getNom());
-            if ("bibliothequaire".equals(utilisateur.getRole().getNom())) {
+            if ("bibliothecaire".equals(utilisateur.getRole().getNom())) {
                 return "redirect:/librarian/home";
             } else {
                 return "redirect:/adherent/home";
