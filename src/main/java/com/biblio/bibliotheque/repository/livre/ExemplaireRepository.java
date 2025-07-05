@@ -12,4 +12,8 @@ public interface ExemplaireRepository extends JpaRepository<Exemplaire, Integer>
     @Query("SELECT e.livre.idLivre FROM Exemplaire e WHERE e.id_exemplaire = :idExemplaire")
     Integer getIdLivreByIdExemplaire(@Param("idExemplaire") Integer idExemplaire);
 
+    @Query(value = "SELECT e.id_exemplaire FROM exemplaire e LEFT JOIN pret p ON e.id_exemplaire = p.id_exemplaire WHERE e.id_livre = :idLivre AND (p.id_pret IS NULL OR p.date_fin < NOW())", nativeQuery = true)
+    Integer findAvailableExemplaire(@Param("idLivre") Integer idLivre);
+
+
 }

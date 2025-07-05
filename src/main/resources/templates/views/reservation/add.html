@@ -1,30 +1,28 @@
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Ajouter une réservation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faire une réservation</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Ajouter une réservation</h1>
-    <form th:action="@{/reservation/add}" th:object="${reservation}" method="post">
-        <div>
-            <label for="exemplaire">Exemplaire:</label>
-            <select id="exemplaire" th:field="*{exemplaire.id_exemplaire}" required>
-                <option value="">Sélectionner un exemplaire</option>
-                <option th:each="exemplaire : ${exemplaires}" th:value="${exemplaire.id_exemplaire}" th:text="${exemplaire.code}"></option>
-            </select>
-        </div>
-        <div>
-            <label for="adherent">Adhérent:</label>
-            <select id="adherent" th:field="*{adherent.idAdherent}" required>
-                <option value="">Sélectionner un adhérent</option>
-                <option th:each="adherent : ${adherents}" th:value="${adherent.idAdherent}" th:text="${adherent.nom + ' ' + adherent.prenom}"></option>
-            </select>
-        </div>
-        <div>
-            <label for="date_reservation">Date de réservation:</label>
-            <input type="date" id="date_reservation" th:field="*{date_reservation}" required/>
-        </div>
-        <button type="submit">Ajouter</button>
-    </form>
+    <div class="container">
+        <h1>Faire une réservation</h1>
+        <form th:action="@{/reservation/add}" method="post">
+            <div class="form-group">
+                <label for="idLivre">Livre :</label>
+                <select id="idLivre" name="idLivre" class="form-control" required>
+                    <option th:each="livre : ${livres}" th:value="${livre.idLivre}" th:text="${livre.titre}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dateReservation">Date de réservation :</label>
+                <input type="date" id="dateReservation" name="dateReservation" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Réserver</button>
+        </form>
+    </div>
 </body>
 </html>

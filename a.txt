@@ -1,18 +1,15 @@
-Bon la partie adhérent de la reservation (Réserver un livre) marche:
-Maintenant passons a la partie bibliothecaire pour la reservation:
-ce que fait le bibliothecaire est de valider la reservation si la reservation est valider ca devient un pret.
-Donc dans la partie affichage de la reservation du bibliothecaire nous devons avoir la liste des demandes de reservation. et un boutton pour valider.
+voici une nouvelle fonctionnalité que tu vas integrer dans mon projets actuelle.
+le table réservation sy statut de statut réservation qu'on va le plus utiliser
+tout d'abord faire une demande: le adhérents puis après on test si le livre n'est pas en prêt 
+pour la date de réservation demandé, test si l'adhérent n'est pas sanctionné, précédent détenteur n'a pas prolongé son prêt.
+coter bibliothecaire on valide juste une fois valider ca se tronsforme en pret donc ca insert dans la table prêt. 
+sache aussi qu'on ne peut pas faire de update mais plutot des insert.
 
-dans la partie adhérent nous allons ajouter qualque regle nous avons ses regle dans la tables:
-CREATE TABLE
-    Regle (
-        id_regle SERIAL,
-        nb_jour_duree_pret_max INT NOT NULL,
-        nb_livre_preter_max INT NOT NULL,
-        nb_prolengement_pret_max INT NOT NULL,
-        nb_jour_prolongement_max INT NOT NULL,
-        PRIMARY KEY (id_regle)
-    );
-dans cette table on se concentre plutot nb_livre_preter_max.
-. il y a aussi le fait que on ne peut faire qu'un reservation.
-Donc si on a deja une demande de reservation actif on ne peut pas reserver. On peut considerer que la demande n'est plus actif quand ca devinent un pret
+Maintenant que tout marche appliquons les regles de gestion. 
+dans la partie adherant dans reservation quand on appuie sur reserver on va tout d'abord faire des cerification les voici:
+on test si le livre n'est pas en prêt ,pour la date de réservation demandé, test si l'adhérent n'est pas sanctionné, précédent détenteur n'a pas prolongé son prêt.
+si ce n'est pas le cas une message d'erreur s'affiche disant que c'est impossible de faire le pret.
+Par contre si toute les conditions sont respecter. on va faire une insert dans la table  Statut_Reservation et dans cette table on mets le statut en attente. tu peux voir le table statut dans data.sql
+Maintenant pour la partie bibliothecaire.
+la on recuperer toute les Statut_Reservation avec une id_statut "en attente" normalement on doit join Statut_Reservation à statut.
+Une fois cela fait on aurra un bouton accepter ou rejeter. si on accepte ca devient un pret

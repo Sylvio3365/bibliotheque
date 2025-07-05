@@ -4,6 +4,7 @@ import com.biblio.bibliotheque.model.gestion.Adherent;
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.pret.Pret;
 
+import java.sql.Date;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -30,5 +31,8 @@ public interface PretRepository extends JpaRepository<Pret, Integer> {
 
     @Query("SELECT p FROM Pret p WHERE p.exemplaire = :exemplaire AND p.date_fin > :dateFin")
     Optional<Pret> findByExemplaireAndDateFinAfter(@Param("exemplaire") Exemplaire exemplaire, @Param("dateFin") LocalDate dateFin);
+
+    @Query(value = "SELECT COUNT(*) > 0 FROM pret p JOIN exemplaire e ON p.id_exemplaire = e.id_exemplaire WHERE e.id_livre = :idLivre AND :dateReservation BETWEEN p.date_debut AND p.date_fin", nativeQuery = true)
+    boolean isLivrePrete(@Param("idLivre") Integer idLivre, @Param("dateReservation") Date dateReservation);
 
 }

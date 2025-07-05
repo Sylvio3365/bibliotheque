@@ -31,6 +31,9 @@ public class Reservation {
     @JoinColumn(name = "id_adherent", nullable = false)
     private Adherent adherent;
 
+    @OneToOne(mappedBy = "reservation")
+    private StatutReservation statutReservation;
+
     // Getters and Setters
     public Integer getId_reservation() {
         return id_reservation;
@@ -78,5 +81,13 @@ public class Reservation {
 
     public void setAdherent(Adherent adherent) {
         this.adherent = adherent;
+    }
+
+    public StatutReservation getStatutReservation() {
+        return statutReservation;
+    }
+
+    public void setStatutReservation(StatutReservation statutReservation) {
+        this.statutReservation = statutReservation;
     }
 }
