@@ -1,7 +1,12 @@
 package com.biblio.bibliotheque.controller.reservation;
 
+import com.biblio.bibliotheque.exception.AdherentNotFoundException;
+import com.biblio.bibliotheque.exception.AdherentSanctionedException;
+import com.biblio.bibliotheque.exception.ExemplaireNotAvailableException;
+import com.biblio.bibliotheque.exception.ExemplaireNotFoundException;
 import com.biblio.bibliotheque.model.reservation.Reservation;
 import com.biblio.bibliotheque.repository.reservation.*;
+import com.biblio.bibliotheque.service.reservation.ReservationService;
 
 import com.biblio.bibliotheque.repository.pret.*;
 import com.biblio.bibliotheque.repository.gestion.*;
@@ -11,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,6 +33,9 @@ public class ReservationController {
 
     @Autowired
     private AdherentRepository adherentRepository;
+
+    @Autowired
+    private ReservationService reservationService;
 
     @GetMapping
     public String list(Model model) {
@@ -74,4 +83,25 @@ public class ReservationController {
         reservationRepository.deleteById(id);
         return "redirect:/reservation";
     }
+
+    @GetMapping("/reserver")
+    public String showReserverForm(Model model) {
+        model.addAttribute("exemplaires", exemplaireRepository.findAll());
+        model.addAttribute("adherents", adherentRepository.findAll());
+        return "views/reservation/add"; // Reusing the add form for now, can create a dedicated one later
+    }
+
+    @PostMapping("/reserver")
+    public String reserverExemplaire(@RequestParam("idExemplaire") Integer idExemplaire,
+                                     @RequestParam("idAdherent") Integer idAdherent,
+                                     RedirectAttributes redirectAttributes) {
+        try {
+            reservationService.reserverExemplaire(idExemplaire, idAdherent);
+            redirectAttributes.addFlashAttribute("successMessage", "Exemplaire réservé avec succès!");
+        } catch (AdherentNotFoundException | ExemplaireNotFoundException | ExemplaireNotAvailableException | AdherentSanctionedException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/reservation";
+    }
 }
+

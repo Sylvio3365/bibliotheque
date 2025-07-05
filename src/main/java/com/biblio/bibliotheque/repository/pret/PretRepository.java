@@ -1,10 +1,12 @@
 package com.biblio.bibliotheque.repository.pret;
 
 import com.biblio.bibliotheque.model.gestion.Adherent;
+import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.pret.Pret;
 
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,5 +27,8 @@ public interface PretRepository extends JpaRepository<Pret, Integer> {
 
     @Query("SELECT p.date_fin FROM Pret p WHERE p.id_pret = :idPret")
     LocalDate getDateFinById(@Param("idPret") Integer idPret);
+
+    @Query("SELECT p FROM Pret p WHERE p.exemplaire = :exemplaire AND p.date_fin > :dateFin")
+    Optional<Pret> findByExemplaireAndDateFinAfter(@Param("exemplaire") Exemplaire exemplaire, @Param("dateFin") LocalDate dateFin);
 
 }
