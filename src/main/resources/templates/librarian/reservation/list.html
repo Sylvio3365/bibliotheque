@@ -28,14 +28,18 @@
                     <td th:text="${reservation.adherent.nom}"></td>
                     <td th:text="${reservation.date_reservation}"></td>
                     <td>
-                        <span th:if="${reservation.statutReservation != null and reservation.statutReservation.statut != null and reservation.statutReservation.statut.id_statut == 1}">En attente</span>
-                        <span th:if="${reservation.statutReservation != null and reservation.statutReservation.statut != null and reservation.statutReservation.statut.id_statut == 2}">Validée</span>
-                        <span th:if="${reservation.statutReservation == null or reservation.statutReservation.statut == null}">Statut inconnu</span>
+                        <span th:if="${reservation.getCurrentStatutReservation() != null and reservation.getCurrentStatutReservation().getStatut() != null and reservation.getCurrentStatutReservation().getStatut().getId_statut() == 1}">En attente</span>
+                        <span th:if="${reservation.getCurrentStatutReservation() != null and reservation.getCurrentStatutReservation().getStatut() != null and reservation.getCurrentStatutReservation().getStatut().getId_statut() == 2}">Validée</span>
+                        <span th:if="${reservation.getCurrentStatutReservation() == null or reservation.getCurrentStatutReservation().getStatut() == null}">Statut inconnu</span>
                     </td>
                     <td>
-                        <form th:if="${reservation.statutReservation != null and reservation.statutReservation.statut != null and reservation.statutReservation.statut.id_statut == 1}" th:action="@{/reservation/validate}" method="post">
+                        <form th:if="${reservation.getCurrentStatutReservation() != null and reservation.getCurrentStatutReservation().getStatut() != null and reservation.getCurrentStatutReservation().getStatut().getId_statut() == 1}" th:action="@{/reservation/validate}" method="post" style="display: inline;">
                             <input type="hidden" name="idReservation" th:value="${reservation.id_reservation}" />
                             <button type="submit" class="btn btn-success">Valider</button>
+                        </form>
+                        <form th:if="${reservation.getCurrentStatutReservation() != null and reservation.getCurrentStatutReservation().getStatut() != null and reservation.getCurrentStatutReservation().getStatut().getId_statut() == 1}" th:action="@{/reservation/reject}" method="post" style="display: inline;">
+                            <input type="hidden" name="idReservation" th:value="${reservation.id_reservation}" />
+                            <button type="submit" class="btn btn-danger">Rejeter</button>
                         </form>
                     </td>
                 </tr>

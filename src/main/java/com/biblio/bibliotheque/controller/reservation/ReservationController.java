@@ -51,12 +51,12 @@ public class ReservationController {
 
             reservationService.creerReservation(idLivre, idAdherent, dateReservation);
             redirectAttributes.addFlashAttribute("successMessage", "Réservation créée avec succès!");
+            return "redirect:/reservation/list";
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/reservation/add";
         }
-
-        return "redirect:/reservation/list";
     }
 
     @GetMapping("/list")
@@ -76,6 +76,18 @@ public class ReservationController {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/reservation/list";
+    }
+
+    @PostMapping("/reject")
+    public String rejectReservation(@RequestParam("idReservation") Integer idReservation,
+                                    RedirectAttributes redirectAttributes) {
+        try {
+            reservationService.rejectReservation(idReservation);
+            redirectAttributes.addFlashAttribute("successMessage", "Réservation rejetée avec succès!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/librarian/reservation/list";
     }
 }
 

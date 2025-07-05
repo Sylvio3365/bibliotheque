@@ -147,7 +147,6 @@ CREATE TABLE
         FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur (id_utilisateur),
         FOREIGN KEY (id_profil) REFERENCES Profil (id_profil)
     );
-
 CREATE TABLE
     Reservation (
         id_reservation SERIAL,
@@ -172,7 +171,7 @@ CREATE TABLE
         PRIMARY KEY (id_sanction),
         FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent)
     );
-
+DROP TABLE IF EXISTS Statut_Reservation CASCADE;
 CREATE TABLE
     Statut_Reservation (
         id_statut_reservation SERIAL,
@@ -183,7 +182,7 @@ CREATE TABLE
         FOREIGN KEY (id_reservation) REFERENCES Reservation (id_reservation),
         FOREIGN KEY (id_statut) REFERENCES Statut (id_statut)
     );
-
+--DROP TABLE IF EXISTS Pret CASCADE;
 CREATE TABLE
     Pret (
         id_pret SERIAL,

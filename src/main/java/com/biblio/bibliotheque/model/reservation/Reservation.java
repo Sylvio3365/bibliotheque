@@ -2,6 +2,8 @@ package com.biblio.bibliotheque.model.reservation;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Comparator;
 
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.gestion.Adherent;
@@ -31,8 +33,8 @@ public class Reservation {
     @JoinColumn(name = "id_adherent", nullable = false)
     private Adherent adherent;
 
-    @OneToOne(mappedBy = "reservation")
-    private StatutReservation statutReservation;
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<StatutReservation> statutReservations;
 
     // Getters and Setters
     public Integer getId_reservation() {
@@ -83,11 +85,21 @@ public class Reservation {
         this.adherent = adherent;
     }
 
-    public StatutReservation getStatutReservation() {
-        return statutReservation;
+    public List<StatutReservation> getStatutReservations() {
+        return statutReservations;
     }
 
-    public void setStatutReservation(StatutReservation statutReservation) {
-        this.statutReservation = statutReservation;
+    public void setStatutReservations(List<StatutReservation> statutReservations) {
+        this.statutReservations = statutReservations;
+    }
+
+    // Helper method to get the current status
+    public StatutReservation getCurrentStatutReservation() {
+        if (statutReservations == null || statutReservations.isEmpty()) {
+            return null;
+        }
+        return statutReservations.stream()
+                .max(Comparator.comparing(StatutReservation::getDate_modif))
+                .orElse(null);
     }
 }

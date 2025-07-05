@@ -1,10 +1,3 @@
-voici une nouvelle fonctionnalité que tu vas integrer dans mon projets actuelle.
-le table réservation sy statut de statut réservation qu'on va le plus utiliser
-tout d'abord faire une demande: le adhérents puis après on test si le livre n'est pas en prêt 
-pour la date de réservation demandé, test si l'adhérent n'est pas sanctionné, précédent détenteur n'a pas prolongé son prêt.
-coter bibliothecaire on valide juste une fois valider ca se tronsforme en pret donc ca insert dans la table prêt. 
-sache aussi qu'on ne peut pas faire de update mais plutot des insert.
-
 Maintenant que tout marche appliquons les regles de gestion. 
 dans la partie adherant dans reservation quand on appuie sur reserver on va tout d'abord faire des cerification les voici:
 on test si le livre n'est pas en prêt ,pour la date de réservation demandé, test si l'adhérent n'est pas sanctionné, précédent détenteur n'a pas prolongé son prêt.
@@ -12,4 +5,4 @@ si ce n'est pas le cas une message d'erreur s'affiche disant que c'est impossibl
 Par contre si toute les conditions sont respecter. on va faire une insert dans la table  Statut_Reservation et dans cette table on mets le statut en attente. tu peux voir le table statut dans data.sql
 Maintenant pour la partie bibliothecaire.
 la on recuperer toute les Statut_Reservation avec une id_statut "en attente" normalement on doit join Statut_Reservation à statut.
-Une fois cela fait on aurra un bouton accepter ou rejeter. si on accepte ca devient un pret
+Une fois cela fait on aurra un bouton accepter ou rejeter. si on accepte ca devient un pret et l'id_statut devient valider. si on rejete id_statut devient juste valider  

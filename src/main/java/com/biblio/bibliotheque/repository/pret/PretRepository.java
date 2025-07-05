@@ -35,4 +35,9 @@ public interface PretRepository extends JpaRepository<Pret, Integer> {
     @Query(value = "SELECT COUNT(*) > 0 FROM pret p JOIN exemplaire e ON p.id_exemplaire = e.id_exemplaire WHERE e.id_livre = :idLivre AND :dateReservation BETWEEN p.date_debut AND p.date_fin", nativeQuery = true)
     boolean isLivrePrete(@Param("idLivre") Integer idLivre, @Param("dateReservation") Date dateReservation);
 
+    @Query(value = "SELECT * FROM pret WHERE id_exemplaire = :idExemplaire ORDER BY date_fin DESC LIMIT 1", nativeQuery = true)
+    Optional<Pret> findLastPretByExemplaireId(@Param("idExemplaire") Integer idExemplaire);
+
+    @Query(value = "SELECT COUNT(p.*) FROM pret p JOIN exemplaire e ON p.id_exemplaire = e.id_exemplaire WHERE p.id_adherent = :idAdherent AND p.date_debut <= :dateFin AND p.date_fin >= :dateDebut", nativeQuery = true)
+    Integer countActiveLoansForAdherent(@Param("idAdherent") Integer idAdherent, @Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin);
 }
