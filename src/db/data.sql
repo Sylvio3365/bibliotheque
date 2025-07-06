@@ -155,8 +155,61 @@ VALUES
 -- EX-0009 - en pret
 
 -- Emprunter EX-0007 et EX-0008 pour l'adhérent 'Rakoto Jean' (id_adherent = 1)
-INSERT INTO
-    Pret (date_debut, date_fin, id_exemplaire, id_adherent, id_type)
+INSERT INTO Pret (date_debut, date_fin, id_exemplaire, id_adherent, id_type)
 VALUES
-    (NOW (), NOW () + INTERVAL '15 days', 7, 1, 1),
-    (NOW (), NOW () + INTERVAL '10 days', 8, 1, 2);
+('2025-07-01', '2025-07-10', 7, 1, 1),  -- EX-0007
+('2025-07-02', '2025-07-12', 8, 1, 2),  -- EX-0008
+('2025-07-03', '2025-07-13', 9, 1, 1),  -- EX-0009
+('2025-07-04', '2025-07-14', 1, 1, 2),  -- EX-0001
+('2025-07-05', '2025-07-15', 2, 1, 1),  -- EX-0002
+('2025-07-06', '2025-07-16', 3, 1, 2),  -- EX-0003
+('2025-07-07', '2025-07-17', 4, 1, 1),  -- EX-0004
+('2025-07-08', '2025-07-18', 5, 1, 2),  -- EX-0005
+('2025-07-09', '2025-07-19', 6, 1, 1);  -- EX-0006
+
+
+INSERT INTO Date_Prevue_Rendu (id_pret, date_prevue) VALUES
+(1, '2025-07-10 00:00:00'),
+(2, '2025-07-11 00:00:00'),
+(3, '2025-07-14 00:00:00'),
+(4, '2025-07-13 00:00:00'),
+(5, '2025-07-17 00:00:00'),
+(6, '2025-07-18 00:00:00'),
+(7, '2025-07-17 00:00:00'),
+(8, '2025-07-20 00:00:00'),
+(9, '2025-07-19 00:00:00');
+
+
+INSERT INTO Rendu (id_pret, date_du_rendu) VALUES
+-- 5 premiers rendus en retard (après date prévue)
+(1, '2025-07-12 10:00:00'),  -- prévu 2025-07-10, rendu 2 jours après
+(2, '2025-07-13 09:00:00'),  -- prévu 2025-07-11, rendu 2 jours après
+(3, '2025-07-16 15:00:00'),  -- prévu 2025-07-14, rendu 2 jours après
+(4, '2025-07-15 12:00:00'),  -- prévu 2025-07-13, rendu 2 jours après
+(5, '2025-07-19 08:00:00'),  -- prévu 2025-07-17, rendu 2 jours après
+
+-- 4 rendus avant ou à temps
+(6, '2025-07-17 10:00:00'),  -- prévu 2025-07-18, rendu 1 jour avant
+(7, '2025-07-16 09:00:00'),  -- prévu 2025-07-17, rendu 1 jour avant
+(8, '2025-07-20 11:00:00'),  -- prévu 2025-07-20, rendu à l’heure
+(9, '2025-07-18 14:00:00');  -- prévu 2025-07-19, rendu 1 jour avant
+
+
+INSERT INTO statut_Adherent (id_adherent, nom, date_debut, date_fin) VALUES
+(1, 'Actif', '2024-01-01', '2024-06-30'),
+(1, 'Inactif', '2024-07-01', '2024-12-31'),
+(1, 'Actif', '2025-01-01', NULL),
+
+(2, 'Inactif', '2023-01-01', '2023-12-31'),
+(2, 'Actif', '2024-01-01', '2024-03-31'),
+(2, 'Inactif', '2024-04-01', '2024-12-31'),
+(2, 'Actif', '2025-01-01', NULL),
+
+(3, 'Actif', '2024-02-15', '2024-05-15'),
+(3, 'Inactif', '2024-05-16', '2024-08-15'),
+(3, 'Actif', '2024-08-16', NULL);
+
+INSERT INTO regle_jour_apres_rendu (nombre_jour) VALUES (10);  
+
+
+--oee

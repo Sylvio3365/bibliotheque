@@ -103,5 +103,12 @@ public class RenduService {
             }
         }
     }
+    public Optional<Rendu> getRenduByPretId(Integer idPret) {
+        return renduRepository.findByPretId(idPret);
+    }
+
+
+
+
 
 }

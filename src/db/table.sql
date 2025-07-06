@@ -1,6 +1,6 @@
-DROP DATABASE if exists biblio;
-CREATE DATABASE biblio;
-\c biblio;
+DROP DATABASE if exists pg2;
+CREATE DATABASE pg2;
+\c pg2;
 
 CREATE TABLE
     Livre (
@@ -147,6 +147,17 @@ CREATE TABLE
         FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur (id_utilisateur),
         FOREIGN KEY (id_profil) REFERENCES Profil (id_profil)
     );
+CREATE TABLE statut_Adherent (
+    id_statut_adherent SERIAL PRIMARY KEY,
+    id_adherent INT NOT NULL,
+    nom VARCHAR(20) NOT NULL, 
+    date_debut DATE NOT NULL,
+    date_fin DATE, 
+    FOREIGN KEY (id_adherent) REFERENCES Adherent (id_adherent)
+);
+
+    
+
 CREATE TABLE
     Reservation (
         id_reservation SERIAL,
@@ -182,6 +193,8 @@ CREATE TABLE
         FOREIGN KEY (id_reservation) REFERENCES Reservation (id_reservation),
         FOREIGN KEY (id_statut) REFERENCES Statut (id_statut)
     );
+
+    
 --DROP TABLE IF EXISTS Pret CASCADE;
 CREATE TABLE
     Pret (
@@ -197,6 +210,14 @@ CREATE TABLE
         FOREIGN KEY (id_type) REFERENCES Type (id_type)
     );
 
+
+CREATE TABLE Date_Prevue_Rendu (
+    id_date_prevue SERIAL PRIMARY KEY,
+    id_pret INT NOT NULL UNIQUE,
+    date_prevue TIMESTAMP NOT NULL,
+    FOREIGN KEY (id_pret) REFERENCES Pret(id_pret)
+);
+
 CREATE TABLE
     Rendu (
         id_rendu SERIAL,
@@ -206,6 +227,7 @@ CREATE TABLE
         UNIQUE (id_pret),
         FOREIGN KEY (id_pret) REFERENCES Pret (id_pret)
     );
+
 DROP TABLE IF EXISTS Prolongement;
 CREATE TABLE Prolongement (
     id_prolongement SERIAL,
@@ -249,3 +271,7 @@ CREATE TABLE
         FOREIGN KEY (id_abonnement) REFERENCES Abonnement (id_abonnement)
     );
 
+CREATE TABLE regle_jour_apres_rendu (
+    id SERIAL PRIMARY KEY,
+    nombre_jour INTEGER NOT NULL
+);

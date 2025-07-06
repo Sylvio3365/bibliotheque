@@ -1,7 +1,7 @@
 package com.biblio.bibliotheque.controller.pret;
 
 import com.biblio.bibliotheque.model.gestion.*;
-import com.biblio.bibliotheque.model.pret.Pret;
+import com.biblio.bibliotheque.model.pret.*;
 import com.biblio.bibliotheque.model.livre.Exemplaire;
 import com.biblio.bibliotheque.model.gestion.Adherent;
 import com.biblio.bibliotheque.model.gestion.Regle;
@@ -13,18 +13,22 @@ import jakarta.servlet.http.HttpSession;
 
 import com.biblio.bibliotheque.repository.gestion.*;
 import com.biblio.bibliotheque.repository.livre.*;
+import com.biblio.bibliotheque.repository.pret.*;
 import com.biblio.bibliotheque.service.gestion.AdherentService;
 import com.biblio.bibliotheque.service.livre.*;
-import com.biblio.bibliotheque.service.pret.PretService;
+import com.biblio.bibliotheque.service.pret.*;
 import com.biblio.bibliotheque.service.gestion.*;
 import com.biblio.bibliotheque.repository.pret.PretRepository;
 import com.biblio.bibliotheque.repository.livre.ExemplaireRepository;
 import com.biblio.bibliotheque.repository.livre.TypeRepository;
 import com.biblio.bibliotheque.service.sanction.SanctionService;
-import java.util.Optional;
 
+import java.util.Optional;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,10 +37,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
 @RequestMapping("/preter")
@@ -75,6 +75,19 @@ public class PretController {
     @Autowired
     private AdherentRepository adherentRepository;
 
+    @Autowired
+    private DatePrevueRenduService datePrevueRenduService;
+
+    @Autowired
+    private TypeService typeService;
+    
+    @Autowired
+    private RenduService renduService;
+
+    @Autowired
+    private RegleJourApresRenduService regleJourApresRenduService;
+    
+
     @GetMapping("/formpreter/livre")
     public String showFormPreterLivre(Model model) {
         model.addAttribute("pret", new Pret());
@@ -86,6 +99,14 @@ public class PretController {
 
     @PostMapping("/add")
     public String savePret(@ModelAttribute Pret pret, Model model) {
+        // Fixer un type par défaut si null
+        if (pret.getType() == null) {
+            Integer idTypeParDefaut = 1; // Mets ici l'ID du type par défaut dans ta base
+            Type typeParDefaut = typeService.getTypeById(idTypeParDefaut)
+                .orElseThrow(() -> new RuntimeException("Type par défaut introuvable"));
+            pret.setType(typeParDefaut);
+        }
+
         Integer idAdherent = pret.getAdherent().getIdAdherent();
         LocalDate dateDebut = pret.getDate_debut();
         Integer idExemplaire = pret.getExemplaire().getId_exemplaire();
@@ -93,6 +114,34 @@ public class PretController {
         Integer idLivre = livreService.getIdLivreByIdExemplaire(idExemplaire);
         Integer ageRestriction = (idLivre != null) ? livreService.getAgeRestrictionByIdLivre(idLivre) : null;
         Integer ageAdherent = adherentService.getAgeAtDate(idAdherent, dateDebut);
+
+        List<DatePrevueRendu> datesPrevues = datePrevueRenduService.getAllDatesPrevuesByAdherentIdAndDate(idAdherent, dateDebut);
+
+        int delaiTolere = regleJourApresRenduService.getDelaiTolere();
+
+        for (DatePrevueRendu dpr : datesPrevues) {
+            if (dpr.getPret() != null && dpr.getPret().getId_pret() != null) {
+                Integer idPret = dpr.getPret().getId_pret();
+                Optional<Rendu> optRendu = renduService.getRenduByPretId(idPret);
+
+                if (optRendu.isEmpty()) {
+                    model.addAttribute("message", "❌ Le prêt #" + idPret + " n’a pas encore été rendu. Impossible d’emprunter un nouveau livre.");
+                    return "views/preter/verification_pret";
+                } else {
+                    Rendu rendu = optRendu.get();
+                    LocalDate dateRendu = rendu.getDateDuRendu();
+                    LocalDate datePrevue = dpr.getDatePrevue();
+
+                    if (dateRendu.isAfter(datePrevue)) {
+                        LocalDate dateAutorisee = dateRendu.plusDays(delaiTolere);
+                        if (dateAutorisee.isAfter(dateDebut)) {
+                            model.addAttribute("message", "❌ Le prêt #" + idPret + " a été rendu en retard. Vous ne pouvez faire un nouveau prêt qu’après le : " + dateAutorisee);
+                            return "views/preter/verification_pret";
+                        }
+                    }
+                }
+            }
+        }
 
         Optional<Adherent> optionalAdherent = adherentService.getById(idAdherent);
         if (optionalAdherent.isEmpty()) {
@@ -113,13 +162,13 @@ public class PretController {
         int nbMaxPrets = (regle != null) ? regle.getNb_livre_preter_max() : 0;
         int nbPretsActifs = pretService.countPretsActifsParAdherentALaDate(idAdherent, dateDebut);
 
-        // Ajuste la date de fin
         if (regle != null && dateDebut != null) {
             LocalDate dateFin = pretService.ajusterDateFin(dateDebut, regle.getNb_jour_duree_pret_max());
             pret.setDate_fin(dateFin);
             model.addAttribute("dateFin", dateFin);
         }
 
+        model.addAttribute("datesPrevues", datesPrevues);
         model.addAttribute("dateDebut", dateDebut);
         model.addAttribute("idAdherent", idAdherent);
         model.addAttribute("idExemplaire", idExemplaire);
@@ -132,15 +181,23 @@ public class PretController {
         model.addAttribute("idRegle", idRegle);
         model.addAttribute("regle", regle);
 
-        // ✅ Enregistre le prêt uniquement si tout est valide
         if (!isSanctioned &&
             nbPretsActifs < nbMaxPrets &&
             disponible &&
             (ageRestriction == null || ageAdherent >= ageRestriction) &&
             "actif".equalsIgnoreCase(statut)) {
 
-            pretService.savePret(pret);
-            model.addAttribute("message", "✅ Le prêt a été enregistré avec succès !");
+            // Sauvegarder le prêt
+            Pret pretSauvegarde = pretService.savePret(pret);
+
+            // Créer et sauvegarder la date prévue de rendu liée au prêt
+            DatePrevueRendu dpr = new DatePrevueRendu();
+            dpr.setPret(pretSauvegarde);
+            dpr.setDatePrevue(pretSauvegarde.getDate_fin());
+
+            datePrevueRenduService.save(dpr);
+
+            model.addAttribute("message", "✅ Le prêt et la date prévue de rendu ont été enregistrés avec succès !");
         } else if (isSanctioned) {
             model.addAttribute("message", "❌ L'adhérent est sanctionné à cette date.");
         } else if (nbPretsActifs >= nbMaxPrets) {
@@ -155,7 +212,6 @@ public class PretController {
 
         return "views/preter/verification_pret";
     }
-
 
 
     // DELETE ACTION
