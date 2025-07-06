@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sanctionner un adhérent</title>
+    <link rel="stylesheet" th:href="@{/css/formulaire.css}">
+
+</head>
+<body>
+    <h1>Sanctionner un adhérent</h1>
+
+    <form th:action="@{/sanction/sanctionner}" method="post">
+        <label for="num_adherent">Numéro Adhérent :</label><br>
+        <input type="number" id="num_adherent" name="num_adherent" required><br><br>
+
+        <label for="date_debut">Date début sanction :</label><br>
+        <input type="date" id="date_debut" name="date_debut" required><br><br>
+
+        <label for="date_fin">Date fin sanction :</label><br>
+        <input type="date" id="date_fin" name="date_fin" required><br><br>
+
+        <label for="motif">Motif :</label><br>
+        <input type="text" id="motif" name="motif" required><br><br>
+
+        <button type="submit">sanctionner</button>
+    </form>
+
+    <p style="color:green;" th:text="${message}"></p>
+    <p style="color:red;" th:text="${error}"></p>
+        <a th:href="@{/retour_librarian}" class="btn-return">Retour</a>
+
+</body>
+</html>
